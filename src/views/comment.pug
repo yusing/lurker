@@ -1,0 +1,18 @@
+include utils
+mixin comment(com, isfirst)
+  - var data = com.data
+  - var kind = com.kind
+  if kind == "more"
+    div.more #{data.count} more comments
+  else
+    div(class=`comment ${isfirst?'first':''}`)
+      div.comment-body !{data.body}
+      div.info-container
+        div.info-item by u/#{data.author}
+        div.info-item ↑ #{fmtnum(data.ups)}
+      div.replies
+      if data.replies
+        if data.replies.data
+          if data.replies.data.children
+            each reply in data.replies.data.children
+              +comment(reply,false)

@@ -1,0 +1,19 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    title reddit
+    link(rel='stylesheet', href='/styles.css')
+  body
+    main#content
+      div.header
+        a(href=`/r/#{subreddit}`)
+          h1 r/#{subreddit}
+        if about
+          p #{about.public_description}
+
+      each child in posts.posts
+        include post
+        +post(child.data)
+
+    script(src='https://unpkg.com/htmx.org@1.9.10')

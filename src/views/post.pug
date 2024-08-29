@@ -1,0 +1,21 @@
+include utils
+mixin post(p)
+  article.post
+    div.post-container
+      div.post-text
+        div.title-container !{p.title} 
+        div.info-container 
+          div.info-item by u/#{p.author}
+          div.info-item ↑ #{fmtnum(p.ups)}
+          div.info-item #{p.domain}
+          div.info-item 
+            a(href=`/r/${p.subreddit}`) r/#{p.subreddit}
+          div.info-item 
+            a(href=`/comments/${p.id}`) #{fmtnum (p.num_comments)} #{fmttxt(p.num_comments, 'comment')} 
+      div.media-preview
+        if p.post_hint == "image" || p.post_hint == "link"
+          if p.thumbnail && p.thumbnail != "self" || p.thumbnail != "default"
+            a(href=p.url)
+              img(src=p.thumbnail width='100px') 
+        else if p.post_hint == "hosted:video"
+          video(src=p.secure_media.reddit_video.scrubber_media_url width='100px') 

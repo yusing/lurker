@@ -1,0 +1,25 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    title reddit
+    link(rel='stylesheet', href='/styles.css')
+  body
+    main#content
+      div.header
+        a(href=`/r/${post.subreddit}`)
+          h4 ← r/#{post.subreddit}
+        h2 #{post.title}
+        if post.post_hint == 'image'
+          img(src=post.url).post-media
+        else if post.post_hint == 'hosted:video'
+          video(src=post.url).post-media
+        p.self-text !{post.selftext}
+        hr
+
+      div.comments-container
+        each child in comments
+          include comment
+          +comment(child, true)
+
+    script(src='https://unpkg.com/htmx.org@1.9.10')
