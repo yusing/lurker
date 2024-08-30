@@ -11,7 +11,8 @@ app.set('view engine', 'pug');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 
-const server = app.listen(3000, () => {
+const port = process.env.READIT_PORT;
+const server = app.listen(port?port:3000, () => {
   console.log(`started on ${server.address().port}`);
 });
 

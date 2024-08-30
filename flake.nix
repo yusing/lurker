@@ -103,5 +103,47 @@
     });
 
     formatter = forAllSystems (system: nixpkgsFor."${system}".alejandra);
+
+    nixosModules.default = {
+      config,
+      pkgs,
+      lib,
+      ...
+    }:
+      with lib; {
+        options = {
+          services.readit = {
+            enable = mkOption {
+              type = types.bool;
+              default = false;
+              description = "Enable readit";
+            };
+            port = mkOption {
+              type = types.int;
+              default = 3000;
+              description = "Port to run readit on";
+            };
+          };
+        };
+
+        config = mkIf config.services.readit.enable {
+          systemd.services.readit = {
+            description = "readit service";
+            wantedBy = ["multi-user.target"];
+
+            serviceConfig = {
+              ExecStart = "${pkgs.readit}/bin/readit";
+              Restart = "always";
+            };
+
+            listenStream = ["0.0.0.0:${toString config.services.readit.port}"];
+
+            # If the binary needs specific environment variables, set them here
+            environment = {
+              READIT_PORT = "${toString config.services.readit.port}";
+            };
+          };
+        };
+      };
   };
 }
