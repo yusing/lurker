@@ -3,11 +3,12 @@ mixin post(p)
   article.post
     div.post-container
       div.post-text
-        div.title-container !{p.title} 
+        div.title-container
+          != p.title
+          span.domain   (#{p.domain})
         div.info-container 
           div.info-item by u/#{p.author}
           div.info-item ↑ #{fmtnum(p.ups)}
-          div.info-item #{p.domain}
           div.info-item 
             a(href=`/r/${p.subreddit}`) r/#{p.subreddit}
           div.info-item 

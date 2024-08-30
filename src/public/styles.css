@@ -7,9 +7,24 @@ main {
 
 .post, .comments-container, .header {
   padding: 0.3rem;
-  flex: 1 1 95%;
+  flex: 1 1 100%;
   font-size: 1rem;
-  width: 95%;
+  width: 100%;
+}
+
+.info-container {
+  color: #777;
+  font-size: 0.7rem;
+  display: flex;
+}
+
+.domain {
+  color: #777;
+  font-size: 0.7rem;
+}
+
+.info-item {
+  margin-right: 10px;
 }
 
 @media (min-width: 768px) {
@@ -17,12 +32,18 @@ main {
     flex: 1 1 65%;
     width: 65%;
   }
+  .info-container {
+    font-size: 0.8rem;
+  }
 }
 
 @media (min-width: 1080px) {
   .post, .comments-container, .header {
     flex: 1 1 50%;
     width: 50%;
+  }
+  .info-container {
+    font-size: 0.8rem;
   }
 }
 
@@ -33,7 +54,7 @@ main {
 .comment, .more {
   width: 100%;
   border-left: 1px dashed;
-  padding: 10px 0px 10px 24px;
+  padding: 10px 0px 0px 24px;
   box-sizing: border-box;
 }
 
@@ -74,17 +95,6 @@ main {
   flex: 1;                     
   margin-top: 10px;
   margin-bottom: 10px;
-}
-
-.info-container {
-  color: #777;
-  font-size: 0.8rem;
-  display: flex;
-  align-items: center;        
-}
-
-.info-item {
-  margin-right: 10px;
 }
 
 hr {
