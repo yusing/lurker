@@ -7,7 +7,7 @@
     self,
     nixpkgs,
   }: let
-    supportedSystems = ["x86_64-linux"];
+    supportedSystems = ["x86_64-linux" "aarch64-linux" "aarch64-darwin" ];
     forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
     nixpkgsFor = forAllSystems (system:
       import nixpkgs {
@@ -36,7 +36,7 @@
             cp -R ./node_modules/* $out/node_modules
             ls -la $out/node_modules
           '';
-          outputHash = "sha256-qFYgRIarDChHQu0ZrUKd/Y61gxaagMWpf2h9xizwGv4=";
+          outputHash = "sha256-rDMFY/D7rRWj6PDhZu2vRST12fyNpYUMl1a1LBB6/Jw=";
           outputHashAlgo = "sha256";
           outputHashMode = "recursive";
         };
