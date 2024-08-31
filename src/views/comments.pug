@@ -14,7 +14,7 @@ html
           img(src=post.url).post-media
         else if post.post_hint == 'hosted:video'
           video(src=post.url).post-media
-        p.self-text !{post.selftext}
+        p.self-text !{post.selftext_html}
         hr
 
       div.comments-container

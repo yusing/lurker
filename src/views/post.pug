@@ -7,8 +7,8 @@ mixin post(p)
           != p.title
           span.domain   (#{p.domain})
         div.info-container 
-          div.info-item by u/#{p.author}
           div.info-item ↑ #{fmtnum(p.ups)}
+          div.info-item by u/#{p.author}
           div.info-item 
             a(href=`/r/${p.subreddit}`) r/#{p.subreddit}
           div.info-item 
@@ -18,5 +18,8 @@ mixin post(p)
           if p.thumbnail && p.thumbnail != "self" || p.thumbnail != "default"
             a(href=p.url)
               img(src=p.thumbnail width='100px') 
-        else if p.post_hint == "hosted:video"
-          video(src=p.secure_media.reddit_video.scrubber_media_url width='100px') 
+          else if p.post_hint == "hosted:video"
+            - var url = p.secure_media.reddit_video.fallback_url
+            a(href=url)
+              video(src=url height='100px')
+

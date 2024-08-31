@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "express": "^4.19.2",
+    "he": "^1.2.0",
     "pug": "^3.0.3",
     "timeago.js": "^4.0.2"
   }

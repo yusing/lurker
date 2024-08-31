@@ -1,8 +1,8 @@
 const express = require('express');
+const he = require('he');
 const router = express.Router();
 const geddit = require('../geddit.js');
 const G = new geddit.Geddit();
-const fs = require('fs/promises');
 
 
 // GET /
@@ -18,6 +18,7 @@ router.get('/r/:subreddit', async (req, res) => {
   var aboutReq = G.getSubreddit(`${subreddit}`);
 
   var [posts, about] = await Promise.all([postsReq, aboutReq]);
+
   res.render('index', { subreddit, posts, about });
 });
 
@@ -26,10 +27,33 @@ router.get('/comments/:id', async (req, res) => {
   var id = req.params.id;
 
   response = await G.getSubmissionComments(id);
-  var post = response.submission.data;
-  var comments = response.comments;
 
-  res.render('comments', { post, comments });
+  res.render('comments', unescape_submission(response));
 });
 
 module.exports = router;
+
+function unescape_submission(response) {
+  var post = response.submission.data;
+  var comments = response.comments;
+
+  if (post.selftext_html) {
+    post.selftext_html = he.decode(post.selftext_html);
+  }
+  comments.forEach(unescape_comment);
+
+  return { post, comments };
+}
+
+function unescape_comment(comment) {
+  if (comment.data.body_html) {
+    comment.data.body_html = he.decode(comment.data.body_html);
+  }
+  if (comment.data.replies) {
+    if(comment.data.replies.data) {
+      if(comment.data.replies.data.children) {
+        comment.data.replies.data.children.forEach(unescape_comment);
+      }
+    }
+  }
+}

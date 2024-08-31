@@ -6,7 +6,8 @@ mixin comment(com, isfirst)
     div.more #{data.count} more comments
   else
     div(class=`comment ${isfirst?'first':''}`)
-      div.comment-body !{data.body}
+      div.comment-body 
+        != data.body_html
       div.info-container
         div.info-item by u/#{data.author}
         div.info-item ↑ #{fmtnum(data.ups)}
