@@ -10,6 +10,9 @@ mixin comment(com, isfirst)
       div.comment-info-container
         div.info-item u/#{data.author}
         div.info-item ↑ #{fmtnum(data.ups)}
+        if data.collapsed_reason_code == "DELETED"
+          div.info-item 
+            a(href=`https://undelete.pullpush.io${data.permalink}`) search on undelete
       div.comment-body 
         != data.body_html
       div.replies

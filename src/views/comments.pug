@@ -6,17 +6,22 @@ html
     meta(charset='UTF-8')
     title reddit
     link(rel='stylesheet', href='/styles.css')
+    script(src="https://cdn.dashjs.org/latest/dash.all.min.js")
   body
     main#content
       div.hero
         a(href=`/r/${post.subreddit}`)
           h4 ← r/#{post.subreddit}
         h2 #{post.title}
+
         if post.post_hint == 'image'
           img(src=post.url).post-media
         else if post.post_hint == 'hosted:video'
-          video(src=post.url).post-media
-        p.self-text !{post.selftext_html}
+          - var url = post.secure_media.reddit_video.dash_url
+          video(controls data-dashjs-player src=`${url}`).post-media
+
+        if post.selftext_html
+          p.self-text !{post.selftext_html}
 
       div.comments-container
         each child in comments

@@ -134,6 +134,15 @@ nav {
   margin-bottom: 10px;
 }
 
+.title-container > a {
+  color: black;
+  text-decoration: none;
+}
+
+.title-container > a:visited {
+  color: #999;
+}
+
 .comment-info-container {
   margin-bottom: -12px;
 }
