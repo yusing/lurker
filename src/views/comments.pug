@@ -1,3 +1,5 @@
+include ../mixins/comment
+
 doctype html
 html
   head
@@ -6,7 +8,7 @@ html
     link(rel='stylesheet', href='/styles.css')
   body
     main#content
-      div.header
+      div.hero
         a(href=`/r/${post.subreddit}`)
           h4 ← r/#{post.subreddit}
         h2 #{post.title}
@@ -15,11 +17,9 @@ html
         else if post.post_hint == 'hosted:video'
           video(src=post.url).post-media
         p.self-text !{post.selftext_html}
-        hr
 
       div.comments-container
         each child in comments
-          include comment
           +comment(child, true)
 
     script(src='https://unpkg.com/htmx.org@1.9.10')

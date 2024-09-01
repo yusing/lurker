@@ -1,3 +1,5 @@
+include ../mixins/post
+include ../mixins/sub
 - var subs = []
 doctype html
 html
@@ -5,55 +7,42 @@ html
     meta(charset='UTF-8')
     title reddit
     link(rel='stylesheet', href='/styles.css')
+
+  +subMgmt()
   script.
-    function getSubs() {
-      var store = localStorage.getItem('subs');
-      if (store) {
-        return store.split(',').map((n)=>n.replace(/\/?r\//,''));
+    function updateButton(sub) {
+      var b = document.getElementById("button-container");
+      b.innerHTML = '';
+
+      const button = document.createElement("button");
+
+      if (issub(sub)) {
+         button.innerText = "unsubscribe";
+         button.onclick = ()=>unsubscribe(sub);
       } else {
-        return [];
+         button.innerText = "subscribe";
+         button.onclick = ()=>subscribe(sub);
       }
+      b.appendChild(button);
     }
 
-    function subscribe(newsub) {
-      var subs = getSubs();
-      if (!subs.includes(newsub)) {
-        localStorage.setItem('subs',[...subs,newsub]);
-      }
-    }
-
-    function newSubItem(newsub) {
-      var p = document.createElement("p");
-      var text = document.createTextNode(newsub);
-      p.appendChild(text);
-      return p;
-    }
-
-    function genSubListing() {
-      const body = document.body;
-      const subbar = document.createElement('div');
-      subbar.id = 'subscriptions';
-      body.insertBefore(subbar, body.firstChild);
-      getSubs().forEach((item) => {
-        subbar.appendChild(newSubItem(item));
-      });
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-      genSubListing();
-    });
+    document.addEventListener('DOMContentLoaded', ()=>updateButton("#{subreddit}"));
   body
-
     main#content
       div.header
+        div.header-item
+          a(href=`/`) home
+        div.header-item
+          a(href=`/subs`) subscriptions
+
+      div.hero
         a(href=`/r/${subreddit}`)
           h1 r/#{subreddit}
         if about
           p #{about.public_description}
-        button(onclick=`subscribe("${subreddit}")`) subscribe
+        div#button-container
 
       each child in posts.posts
-        include post
         +post(child.data)
 
     script(src='https://unpkg.com/htmx.org@1.9.10')

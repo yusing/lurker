@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
 main {
   display: flex;
   flex-direction: column;
@@ -5,14 +11,24 @@ main {
   align-items: center;
 }
 
-.post, .comments-container, .header {
+.header {
+  display: flex;
+  flex-direction: row;
+}
+
+nav {
+  display: flex;
+  align-items: stretch;
+}
+
+.post, .comments-container, .hero, .header {
   padding: 0.3rem;
   flex: 1 1 100%;
   font-size: 1rem;
   width: 100%;
 }
 
-.info-container {
+.info-container, .comment-info-container {
   color: #777;
   font-size: 0.7rem;
   display: flex;
@@ -23,26 +39,40 @@ main {
   font-size: 0.7rem;
 }
 
-.info-item {
+.info-item, .header-item {
   margin-right: 14px;
 }
 
+.header-item {
+  position: relative; /* Needed for positioning the pseudo-element */
+}
+
+.header-item:not(:last-child)::after {
+  content: "·"; /* Middle dot as the separator */
+  position: absolute;
+  right: -10px; /* Adjust position as needed */
+  top: 50%;
+  transform: translateY(-50%); /* Center vertically */
+  color: #888; /* Separator color */
+  font-size: 20px; /* Adjust size of the separator */
+}
+
 @media (min-width: 768px) {
-  .post, .comments-container, .header {
+  .post, .comments-container, .hero, .header {
     flex: 1 1 65%;
     width: 65%;
   }
-  .info-container {
+  .info-container, .comment-info-container {
     font-size: 0.8rem;
   }
 }
 
 @media (min-width: 1080px) {
-  .post, .comments-container, .header {
+  .post, .comments-container, .hero, .header {
     flex: 1 1 50%;
     width: 50%;
   }
-  .info-container {
+  .info-container, .comment-info-container {
     font-size: 0.8rem;
   }
 }
@@ -95,12 +125,17 @@ main {
   display: block;
   margin: 0 auto;
   max-width: 100%;
+  max-height: 400px;
 }
 
-.title-container,.info-container {
-  flex: 1;                     
+.title-container,.info-container, .comment-info-container {
+  flex: 1;
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+.comment-info-container {
+  margin-bottom: -12px;
 }
 
 hr {
@@ -112,4 +147,18 @@ blockquote {
   padding-left: 10px;
   border-left: 4px solid green;
   color: green;
+}
+
+pre, code {
+  background: #eee;
+}
+
+pre {
+  padding: 10px;
+  width: 100%;
+  overflow: auto;
+}
+
+code {
+  overflow-x: auto;
 }

@@ -31,6 +31,11 @@ router.get('/comments/:id', async (req, res) => {
   res.render('comments', unescape_submission(response));
 });
 
+// GET /subs
+router.get('/subs', async (req, res) => {
+  res.render('subs');
+});
+
 module.exports = router;
 
 function unescape_submission(response) {

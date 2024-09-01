@@ -1,0 +1,32 @@
+include ../mixins/sub
+
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    title reddit
+    link(rel='stylesheet', href='/styles.css')
+
+  +subMgmt()
+  script.
+    function newSubItem(sub) {
+      const p = document.createElement("p");
+      const a = document.createElement("a");
+      a.href = `/r/${sub}`;
+      a.innerText = `r/${sub}`;
+      p.appendChild(a);
+      return p;
+    }
+
+    function buildSubList() {
+      var subList = document.getElementById('subList');
+      getSubs().forEach((sub)=>{
+        subList.appendChild(newSubItem(sub));
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', buildSubList);
+  body
+    main#content
+      h1 subscriptions
+      div#subList
