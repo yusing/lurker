@@ -127,6 +127,7 @@
         };
 
         config = mkIf config.services.readit.enable {
+          nixpkgs.overlays = [ self.overlays.default ];
           systemd.services.readit = {
             description = "readit service";
             wantedBy = ["multi-user.target"];
