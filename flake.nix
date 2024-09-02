@@ -132,11 +132,11 @@
             wantedBy = ["multi-user.target"];
 
             serviceConfig = {
+              ListenStream = "0.0.0.0:${toString config.services.readit.port}";
               ExecStart = "${pkgs.readit}/bin/readit";
               Restart = "always";
             };
 
-            listenStream = ["0.0.0.0:${toString config.services.readit.port}"];
 
             # If the binary needs specific environment variables, set them here
             environment = {
