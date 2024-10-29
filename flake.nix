@@ -7,7 +7,7 @@
     self,
     nixpkgs,
   }: let
-    supportedSystems = ["x86_64-linux" "aarch64-linux" "aarch64-darwin" ];
+    supportedSystems = ["x86_64-linux" "aarch64-linux" "aarch64-darwin"];
     forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
     nixpkgsFor = forAllSystems (system:
       import nixpkgs {
@@ -127,7 +127,7 @@
         };
 
         config = mkIf config.services.readit.enable {
-          nixpkgs.overlays = [ self.overlays.default ];
+          nixpkgs.overlays = [self.overlays.default];
           systemd.services.readit = {
             description = "readit service";
             wantedBy = ["multi-user.target"];
@@ -137,7 +137,6 @@
               ExecStart = "${pkgs.readit}/bin/readit";
               Restart = "always";
             };
-
 
             # If the binary needs specific environment variables, set them here
             environment = {
