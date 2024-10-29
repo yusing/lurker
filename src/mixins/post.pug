@@ -15,12 +15,40 @@ mixin post(p)
           div.info-item 
             a(href=`/comments/${p.id}`) #{fmtnum (p.num_comments)} #{fmttxt(p.num_comments, 'comment')} 
       div.media-preview
-        if p.post_hint == "image" || p.post_hint == "link"
+        if p.is_gallery && p.is_gallery == true
+          if p.gallery_data
+            if p.gallery_data.items
+              - var item = p.gallery_data.items[0]
+              - var url = `https://i.redd.it/${item.media_id}.jpg`
+              img(src=url width='100px' height='100px' onclick=`toggleDetails('${p.id}')`) 
+        else if p.post_hint == "image" || p.post_hint == "link"
           if p.thumbnail && p.thumbnail != "self" || p.thumbnail != "default"
-            a(href=p.url)
-              img(src=p.thumbnail width='100px' height='100px') 
+            img(src=p.thumbnail width='100px' height='100px' onclick=`toggleDetails('${p.id}')`) 
         else if p.post_hint == "hosted:video"
           - var url = p.secure_media.reddit_video.dash_url
-          a(href=url)
-            video(src=url controls data-dashjs-player="" width='100px' height='100px')
+          video(src=url data-dashjs-player width='100px' height='100px' onclick=`toggleDetails('${p.id}')`)
+
+    if p.is_gallery && p.is_gallery == true
+      if p.gallery_data
+        if p.gallery_data.items
+          details(id=`${p.id}`)
+            summary expand gallery
+            each item in p.gallery_data.items
+              - var url = `https://i.redd.it/${item.media_id}.jpg`
+              a(href=`/media/${url}`)
+                  img(src=url).post-media
+            button(onclick=`toggleDetails('${p.id}')`) close
+    if (p.post_hint == "image" || p.post_hint == "link") && p.thumbnail && p.thumbnail != "self" && p.thumbnail != "default"
+      details(id=`${p.id}`)
+        summary expand image
+        a(href=`/media/${p.url}`)
+          img(src=p.url).post-media
+        button(onclick=`toggleDetails('${p.id}')`) close
+    else if p.post_hint == "hosted:video"
+      details(id=`${p.id}`)
+        summary expand video
+        - var url = p.secure_media.reddit_video.dash_url
+        a(href=url)
+          video(src=url controls data-dashjs-player).post-media
+        button(onclick=`toggleDetails('${p.id}')`) close
 

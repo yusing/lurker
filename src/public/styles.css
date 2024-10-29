@@ -60,7 +60,7 @@ nav {
 @media (min-width: 768px) {
   .post, .comments-container, .hero, .header {
     flex: 1 1 65%;
-    width: 65%;
+    width: 75%;
   }
   .info-container, .comment-info-container {
     font-size: 0.8rem;
@@ -121,6 +121,10 @@ nav {
   margin-left: auto;
 }
 
+.media-preview img {
+  object-fit: cover;
+}
+
 .post-media {
   display: block;
   margin: 0 auto;
@@ -141,10 +145,6 @@ nav {
 
 .title-container > a:visited {
   color: #999;
-}
-
-.comment-info-container {
-  margin-bottom: -12px;
 }
 
 hr {
@@ -170,4 +170,16 @@ pre {
 
 code {
   overflow-x: auto;
+}
+
+p {
+  margin-top: 5px;
+}
+
+.comment-body {
+  text-align: left;
+}
+
+summary {
+  display: none;
 }

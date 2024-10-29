@@ -11,10 +11,14 @@ router.get('/', async (req, res) => {
 });
 
 // GET /r/:id
-router.get('/r/:subreddit', async (req, res) => {
+router.get('/r/:subreddit/:sort?', async (req, res) => {
   var subreddit = req.params.subreddit;
+  var query = req.query;
+  var sort = req.params.sort ? req.params.sort : 'hot';
+  var options = req.query;
 
-  var postsReq = G.getSubmissions(`r/${subreddit}`);
+  // var postsReq = G.getSubmissions(sort, `r/${subreddit}`, options);
+  var postsReq = G.getSubmissions(sort, `${subreddit}`, options);
   var aboutReq = G.getSubreddit(`${subreddit}`);
 
   var [posts, about] = await Promise.all([postsReq, aboutReq]);
@@ -34,6 +38,17 @@ router.get('/comments/:id', async (req, res) => {
 // GET /subs
 router.get('/subs', async (req, res) => {
   res.render('subs');
+});
+
+// GET /media
+router.get('/media/*', async (req, res) => {
+  var url = req.params[0];
+  console.log(`making request to ${url}`);
+  return await fetch(url, {
+    headers: {
+      Accept: "*/*",
+    }
+  });
 });
 
 module.exports = router;

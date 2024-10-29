@@ -27,6 +27,13 @@ html
       b.appendChild(button);
     }
 
+    function toggleDetails(details_id) {
+      var detailsElement = document.getElementById(details_id);
+      if (detailsElement) {
+        detailsElement.open = !detailsElement.open;
+      }
+    }
+
     document.addEventListener('DOMContentLoaded', ()=>updateButton("#{subreddit}"));
   body
     main#content
@@ -44,8 +51,10 @@ html
         if about
           p #{about.public_description}
         div#button-container
+        a(href=`/r/${subreddit}`)
 
-      each child in posts.posts
-        +post(child.data)
+      if posts
+        each child in posts.posts
+          +post(child.data)
 
     script(src='https://unpkg.com/htmx.org@1.9.10')

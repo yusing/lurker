@@ -10,8 +10,7 @@ html
   body
     main#content
       div.hero
-        a(href=`/r/${post.subreddit}`)
-          h4 ← r/#{post.subreddit}
+        h4 r/#{post.subreddit}
         h2 #{post.title}
 
         if post.post_hint == 'image'
