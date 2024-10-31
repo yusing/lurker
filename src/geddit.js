@@ -218,8 +218,6 @@ class Geddit {
             include_over_18: true
         }
 
-        console.log(this.host + "/search.json?" + new URLSearchParams(Object.assign(params, options)));
-
         return await fetch(this.host + "/search.json?" + new URLSearchParams(Object.assign(params, options)))
             .then(res => res.json())
             .then(json => json.data)

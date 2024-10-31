@@ -16,34 +16,43 @@ main {
   flex-direction: row;
 }
 
+.footer {
+  display: flex;
+  flex-direction: row;
+}
+
+.footer-item {
+  margin-left: auto;
+}
+
 nav {
   display: flex;
   align-items: stretch;
 }
 
-.post, .comments-container, .hero, .header {
+.post, .comments-container, .hero, .header, .footer {
   padding: 0.3rem;
-  flex: 1 1 100%;
-  font-size: 1rem;
+  flex: 1 1 95%;
+  font-size: 0.8rem;
   width: 100%;
 }
 
 .info-container, .comment-info-container {
   color: #777;
-  font-size: 0.7rem;
+  font-size: 0.6rem;
   display: flex;
 }
 
 .domain {
   color: #777;
-  font-size: 0.7rem;
+  font-size: 0.6rem;
 }
 
-.info-item, .header-item {
+.info-item, .header-item, .footer-item {
   margin-right: 14px;
 }
 
-.header-item {
+.header-item, .footer-item {
   position: relative; /* Needed for positioning the pseudo-element */
 }
 
@@ -57,23 +66,47 @@ nav {
   font-size: 20px; /* Adjust size of the separator */
 }
 
+.media-preview img {
+  object-fit: cover;
+  width: 3rem;
+  height: 3rem;
+}
+
 @media (min-width: 768px) {
-  .post, .comments-container, .hero, .header {
-    flex: 1 1 65%;
-    width: 75%;
+  .post, .comments-container, .hero, .header, .footer {
+    flex: 1 1 90%;
+    width: 90%;
+    font-size: 1rem;
   }
   .info-container, .comment-info-container {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
+  }
+  .domain {
+    font-size: 0.9rem;
+  }
+  .media-preview img {
+    object-fit: cover;
+    width: 7rem;
+    height: 7rem;
   }
 }
 
 @media (min-width: 1080px) {
-  .post, .comments-container, .hero, .header {
+  .post, .comments-container, .hero, .header, .footer {
     flex: 1 1 50%;
     width: 50%;
+    font-size: 1rem;
   }
   .info-container, .comment-info-container {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
+  }
+  .domain {
+    font-size: 0.9rem;
+  }
+  .media-preview img {
+    object-fit: cover;
+    width: 7rem;
+    height: 7rem;
   }
 }
 
@@ -121,8 +154,9 @@ nav {
   margin-left: auto;
 }
 
-.media-preview img {
-  object-fit: cover;
+.bottom-links-container {
+  display: flex;
+  flex-direction: row;
 }
 
 .post-media {
@@ -182,4 +216,8 @@ p {
 
 summary {
   display: none;
+}
+
+.footer {
+  padding-bottom: 40px;
 }

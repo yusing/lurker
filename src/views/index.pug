@@ -4,6 +4,7 @@ include ../mixins/sub
 doctype html
 html
   head
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
     meta(charset='UTF-8')
     title reddit
     link(rel='stylesheet', href='/styles.css')
@@ -56,5 +57,6 @@ html
       if posts
         each child in posts.posts
           +post(child.data)
-
-    script(src='https://unpkg.com/htmx.org@1.9.10')
+        div.footer
+          div.footer-item
+            a(href=`/r/${subreddit}?after=${posts.after}`) next

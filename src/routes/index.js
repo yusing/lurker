@@ -17,11 +17,12 @@ router.get('/r/:subreddit/:sort?', async (req, res) => {
   var sort = req.params.sort ? req.params.sort : 'hot';
   var options = req.query;
 
-  // var postsReq = G.getSubmissions(sort, `r/${subreddit}`, options);
   var postsReq = G.getSubmissions(sort, `${subreddit}`, options);
   var aboutReq = G.getSubreddit(`${subreddit}`);
 
   var [posts, about] = await Promise.all([postsReq, aboutReq]);
+  console.log(`posts for ${subreddit}`);
+  console.log(posts.posts.length);
 
   res.render('index', { subreddit, posts, about });
 });
