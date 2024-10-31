@@ -235,3 +235,10 @@ summary {
 .footer {
   padding-bottom: 40px;
 }
+
+a {
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+

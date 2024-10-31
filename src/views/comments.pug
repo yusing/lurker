@@ -14,7 +14,13 @@ html
         h4 r/#{post.subreddit}
         h2 #{post.title}
 
-        if post.post_hint == 'image'
+        if post.is_gallery && post.is_gallery == true
+          if post.gallery_data
+            if post.gallery_data.items
+              each item in post.gallery_data.items
+                - var url = `https://i.redd.it/${item.media_id}.jpg`
+                img(src=url).post-media
+        if (post.post_hint == "image" || post.post_hint == "link") && post.thumbnail && post.thumbnail != "self" && post.thumbnail != "default"
           img(src=post.url).post-media
         else if post.post_hint == 'hosted:video'
           - var url = post.secure_media.reddit_video.dash_url
