@@ -1,5 +1,6 @@
 include ../mixins/post
 include ../mixins/sub
+include ../mixins/header
 - var subs = []
 doctype html
 html
@@ -38,13 +39,7 @@ html
     document.addEventListener('DOMContentLoaded', ()=>updateButton("#{subreddit}"));
   body
     main#content
-      div.header
-        div.header-item
-          a(href=`/`) home
-        div.header-item
-          a(href=`/subs`) subscriptions
-        div.header-item
-          a(href=`/r/popular`) popular
+      +header()
 
       div.hero
         a(href=`/r/${subreddit}`)
@@ -52,11 +47,17 @@ html
         if about
           p #{about.public_description}
         div#button-container
-        a(href=`/r/${subreddit}`)
+        ul
+          li
+            a(href=`/r/${subreddit}/hot`) hot
+          li
+            a(href=`/r/${subreddit}/top`) top
+          li
+            a(href=`/r/${subreddit}/top?t=all`) top all
 
       if posts
         each child in posts.posts
           +post(child.data)
         div.footer
           div.footer-item
-            a(href=`/r/${subreddit}?after=${posts.after}`) next
+            a(href=`/r/${subreddit}?after=${posts.after}`) next →

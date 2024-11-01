@@ -9,9 +9,9 @@ mixin post(p)
           span.domain   (#{p.domain})
         div.info-container 
           p
-            | ↑ #{fmtnum(p.ups)} 
+            | #{fmtnum(p.ups)} ↑ 
             | &nbsp;·&nbsp;
-            a(href=`/comments/${p.id}`) #{fmtnum (p.num_comments)} replies
+            a(href=`/comments/${p.id}`) #{fmtnum (p.num_comments)} ↩
             | &nbsp;·&nbsp;
             a(href=`/r/${p.subreddit}`) r/#{p.subreddit}
             span.post-author
@@ -36,12 +36,14 @@ mixin post(p)
         if p.gallery_data.items
           details(id=`${p.id}`)
             summary expand gallery
-            each item in p.gallery_data.items
-              - var url = `https://i.redd.it/${item.media_id}.jpg`
-              a(href=`/media/${url}`)
-                  img(src=url).post-media
+            div.gallery
+              each item in p.gallery_data.items
+                - var url = `https://i.redd.it/${item.media_id}.jpg`
+                div.gallery-item
+                  a(href=`/media/${url}`)
+                      img(src=url)
             button(onclick=`toggleDetails('${p.id}')`) close
-    if (p.post_hint == "image" || p.post_hint == "link") && p.thumbnail && p.thumbnail != "self" && p.thumbnail != "default"
+    if p.post_hint == "image" && p.thumbnail && p.thumbnail != "self" && p.thumbnail != "default"
       details(id=`${p.id}`)
         summary expand image
         a(href=`/media/${p.url}`)
@@ -53,4 +55,10 @@ mixin post(p)
         - var url = p.secure_media.reddit_video.dash_url
         video(src=url controls data-dashjs-player).post-media
         button(onclick=`toggleDetails('${p.id}')`) close
-
+    else if p.post_hint == "link" && p.thumbnail && p.thumbnail != "self" && p.thumbnail != "default"
+      details(id=`${p.id}`)
+        summary expand link
+        a(href=`${p.url}`)
+          | #{p.url}
+        br
+        button(onclick=`toggleDetails('${p.id}')`) close

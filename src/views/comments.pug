@@ -1,4 +1,5 @@
 include ../mixins/comment
+include ../mixins/header
 
 doctype html
 html
@@ -10,8 +11,11 @@ html
     script(src="https://cdn.dashjs.org/latest/dash.all.min.js")
   body
     main#content
+      +header()
       div.hero
-        h4 r/#{post.subreddit}
+        h3
+          a(href=`/r/${post.subreddit}`) r/#{post.subreddit}
+
         h2 #{post.title}
 
         if post.is_gallery && post.is_gallery == true
@@ -28,6 +32,12 @@ html
 
         if post.selftext_html
           p.self-text !{post.selftext_html}
+        div.info-container 
+          p
+            | #{fmtnum(post.ups)} ↑ 
+            | &nbsp;·&nbsp; by u/#{post.author} 
+
+        hr
 
       div.comments-container
         each child in comments

@@ -14,7 +14,7 @@ class Geddit {
 
     async getSubmissions(sort = null, subreddit = null, options = {}) {
         let params = {
-            limit: 50,
+            limit: 20,
             include_over_18: true,
         }
 

@@ -2,6 +2,7 @@
 
 body {
   font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
 }
 
 main {
@@ -14,6 +15,7 @@ main {
 .header {
   display: flex;
   flex-direction: row;
+  justify-content: center;
 }
 
 .footer {
@@ -33,8 +35,15 @@ nav {
 .post, .comments-container, .hero, .header, .footer {
   padding: 0.3rem;
   flex: 1 1 95%;
-  font-size: 1rem;
   width: 100%;
+}
+
+.post {
+  font-size: 1rem;
+}
+
+.comments-container {
+  font-size: 0.8rem;
 }
 
 .info-container, .comment-info-container, .more {
@@ -45,26 +54,13 @@ nav {
 
 .domain {
   color: #777;
-  font-size: 0.6rem;
+  font-size: 0.8rem;
 }
 
 .info-item, .header-item, .footer-item {
   margin-right: 14px;
 }
 
-.header-item, .footer-item {
-  position: relative; /* Needed for positioning the pseudo-element */
-}
-
-.header-item:not(:last-child)::after {
-  content: "·"; /* Middle dot as the separator */
-  position: absolute;
-  right: -10px; /* Adjust position as needed */
-  top: 50%;
-  transform: translateY(-50%); /* Center vertically */
-  color: #888; /* Separator color */
-  font-size: 20px; /* Adjust size of the separator */
-}
 
 .media-preview img {
   object-fit: cover;
@@ -84,13 +80,18 @@ nav {
   .post, .comments-container, .hero, .header, .footer {
     flex: 1 1 90%;
     width: 90%;
-    font-size: 1rem;
+  }
+  .post {
+    font-size: 1.3rem;
+  }
+  .comments-container {
+    font-size: 1.1rem;
   }
   .info-container, .comment-info-container, .more {
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
   .domain {
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
   .media-preview img,
   .media-preview video 
@@ -107,13 +108,18 @@ nav {
   .post, .comments-container, .hero, .header, .footer {
     flex: 1 1 50%;
     width: 50%;
-    font-size: 1rem;
+  }
+  .post {
+    font-size: 1.3rem;
+  }
+  .comments-container {
+    font-size: 1.1rem;
   }
   .info-container, .comment-info-container, .more {
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
   .domain {
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
   .media-preview img,
   .media-preview video 
@@ -154,14 +160,16 @@ nav {
 }
 
 .post-container {
-  align-self: stretch;
   display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .post-text {
+  display: flex;
   flex-direction: column;      
   align-items: stretch;        
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 
 .media-preview {
@@ -178,6 +186,7 @@ nav {
   display: block;
   margin: 0 auto;
   max-width: 85%;
+  padding: 5px;
 }
 
 .title-container,.info-container, .comment-info-container {
@@ -211,7 +220,7 @@ pre, code {
 }
 
 pre {
-  padding: 10px;
+  padding: 10px 0px 10px 10px;
   width: 100%;
   overflow: auto;
 }
@@ -242,3 +251,20 @@ a {
   overflow-wrap: break-word;
 }
 
+.gallery {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 5px;
+}
+
+.gallery-item {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    margin-right: 10px;
+}
+
+.gallery img {
+    width: auto;
+    height: 300px;
+}

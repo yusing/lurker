@@ -21,8 +21,6 @@ router.get('/r/:subreddit/:sort?', async (req, res) => {
   var aboutReq = G.getSubreddit(`${subreddit}`);
 
   var [posts, about] = await Promise.all([postsReq, aboutReq]);
-  console.log(`posts for ${subreddit}`);
-  console.log(posts.posts.length);
 
   res.render('index', { subreddit, posts, about });
 });

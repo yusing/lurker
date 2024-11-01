@@ -8,8 +8,8 @@ mixin comment(com, isfirst)
   else
     div(class=`comment ${isfirst?'first':''}`)
       div.comment-info-container
-        div.info-item u/#{data.author}
-        div.info-item ↑ #{fmtnum(data.ups)}
+        div.info-item #{fmtnum(data.ups)} ↑ 
+        div.info-item u/#{data.author} #{data.is_submitter?'(OP)':''}
         if data.collapsed_reason_code == "DELETED"
           div.info-item 
             a(href=`https://undelete.pullpush.io${data.permalink}`) search on undelete
