@@ -10,13 +10,13 @@ mixin post(p)
         div.info-container 
           p
             | #{fmtnum(p.ups)} ↑ 
-            | &nbsp;·&nbsp;
-            a(href=`/comments/${p.id}`) #{fmtnum (p.num_comments)} ↩
-            | &nbsp;·&nbsp;
-            a(href=`/r/${p.subreddit}`) r/#{p.subreddit}
             span.post-author
               | &nbsp;·&nbsp;
               by u/#{p.author} 
+            | &nbsp;·&nbsp;
+            a(href=`/r/${p.subreddit}`) r/#{p.subreddit}
+            | &nbsp;·&nbsp;
+            a(href=`/comments/${p.id}`) #{fmtnum (p.num_comments)} ↩
       div.media-preview
         if p.is_gallery && p.is_gallery == true
           if p.gallery_data
