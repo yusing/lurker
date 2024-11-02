@@ -3,6 +3,7 @@
 :root {
   /* Light mode colors */
   --bg-color: white;
+  --bg-color-muted: #eee;
   --text-color: black;
   --text-color-muted: #999;
   --blockquote-color: green;
@@ -13,6 +14,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --bg-color: black;
+    --bg-color-muted: #333;
     --text-color: white;
     --text-color-muted: #999;
     --blockquote-color: green;
@@ -230,7 +232,7 @@ hr {
 .post-media {
   display: block;
   margin: 0 auto;
-  max-width: 85%;
+  max-width: 95%;
   padding: 5px;
 }
 
@@ -247,6 +249,10 @@ hr {
 .title-container > a {
   color: var(--text-color);
   text-decoration: none;
+}
+
+.title-container > a:hover {
+  text-decoration: underline;
 }
 
 .title-container > a:visited {
@@ -269,7 +275,7 @@ blockquote {
 }
 
 pre, code {
-  background: #eee;
+  background: var(--bg-color-muted);
 }
 
 pre {
@@ -308,17 +314,15 @@ a {
   display: flex;
   overflow-x: auto;
   position: relative;
-  scroll-snap-type: x mandatory;
   padding: 5px;
 }
 
 .gallery-item {
     flex: 0 0 auto;
-    scroll-snap-align: start;
     margin-right: 10px;
 }
 
 .gallery img {
     width: auto;
-    height: 300px;
+    max-height: 500px;
 }
