@@ -1,8 +1,32 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
+:root {
+  /* Light mode colors */
+  --bg-color: white;
+  --text-color: black;
+  --text-color-muted: #999;
+  --blockquote-color: green;
+  --link-color: blue;
+  --link-visited-color: purple;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-color: black;
+    --text-color: white;
+    --text-color-muted: #999;
+    --blockquote-color: green;
+    --link-color: lightblue;
+    --link-visited-color: violet;
+  }
+}
+
+
 body {
   font-family: 'Inter', sans-serif;
   overflow-x: hidden;
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }
 
 main {
@@ -10,6 +34,20 @@ main {
   flex-direction: column;
   gap: 1rem;
   align-items: center;
+}
+
+a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--link-color);
+  text-decoration: underline;
+}
+
+a:visited {
+  color: var(--link-visited-color);
 }
 
 .header {
@@ -38,7 +76,7 @@ nav {
   width: 100%;
 }
 
-.post {
+.post, .hero {
   font-size: 1rem;
 }
 
@@ -46,14 +84,21 @@ nav {
   font-size: 1rem;
 }
 
+.info-container a,
+.info-container,
+.comment-info-container,
+.more,
+hr {
+  color: var(--text-color-muted)
+}
+
 .info-container, .comment-info-container, .more {
-  color: #777;
   font-size: 0.8rem;
   display: flex;
 }
 
 .domain {
-  color: #777;
+  color: var(--text-color-muted);
   font-size: 0.8rem;
 }
 
@@ -62,7 +107,8 @@ nav {
 }
 
 
-.media-preview img {
+.media-preview img,
+.media-preview video {
   object-fit: cover;
 }
 
@@ -81,11 +127,11 @@ nav {
     flex: 1 1 90%;
     width: 90%;
   }
-  .post {
+  .post, .hero {
     font-size: 1.3rem;
   }
   .comments-container {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
   }
   .info-container, .comment-info-container, .more {
     font-size: 1rem;
@@ -106,14 +152,14 @@ nav {
 
 @media (min-width: 1080px) {
   .post, .comments-container, .hero, .header, .footer {
-    flex: 1 1 50%;
-    width: 50%;
+    flex: 1 1 60%;
+    width: 60%;
   }
-  .post {
+  .post, .hero {
     font-size: 1.3rem;
   }
   .comments-container {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
   }
   .info-container, .comment-info-container, .more {
     font-size: 1rem;
@@ -138,7 +184,7 @@ nav {
 
 .comment, .more {
   width: 100%;
-  border-left: 1px dashed;
+  border-left: 1px dashed var(--text-color-muted);
   padding: 10px 0px 0px 24px;
   box-sizing: border-box;
 }
@@ -149,7 +195,6 @@ nav {
 
 .more {
   margin-bottom: 0px;
-  color: #777;
 }
 
 .first {
@@ -189,19 +234,27 @@ nav {
   padding: 5px;
 }
 
-.title-container,.info-container, .comment-info-container {
+.title-container, .comment-info-container {
   flex: 1;
   margin-top: 10px;
   margin-bottom: 10px;
 }
 
+.info-container {
+  flex: 1;
+}
+
 .title-container > a {
-  color: black;
+  color: var(--text-color);
   text-decoration: none;
 }
 
 .title-container > a:visited {
-  color: #999;
+  color: var(--text-color-muted)
+}
+
+.header a {
+  color: var(--text-color);
 }
 
 hr {
@@ -211,8 +264,8 @@ hr {
 blockquote {
   margin: 0px;
   padding-left: 10px;
-  border-left: 4px solid green;
-  color: green;
+  border-left: 4px solid var(--blockquote-color);
+  color: var(--blockquote-color);
 }
 
 pre, code {
@@ -254,6 +307,7 @@ a {
 .gallery {
   display: flex;
   overflow-x: auto;
+  position: relative;
   scroll-snap-type: x mandatory;
   padding: 5px;
 }

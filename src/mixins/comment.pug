@@ -13,6 +13,7 @@ mixin comment(com, isfirst)
         if data.collapsed_reason_code == "DELETED"
           div.info-item 
             a(href=`https://undelete.pullpush.io${data.permalink}`) search on undelete
+        div.info-item #{timeDifference(Date.now(), data.created * 1000)}
       div.comment-body 
         != data.body_html
       div.replies
