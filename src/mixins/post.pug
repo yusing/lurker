@@ -45,7 +45,15 @@ mixin post(p)
               - var total = p.gallery_data.items.length
               - var idx = 0
               - var metadata = p.media_metadata
-              - var img_ext = (id) => stripPrefix(metadata[id].m, "image/")
+              - 
+                var img_ext = (id) => {
+                  if (metadata[id].status == 'valid') {
+                    return stripPrefix(metadata[id].m, "image/");
+                  } else {
+                    // dosent matter
+                    return 'jpg';
+                  }
+                }
               each item in p.gallery_data.items
                 - var id = item.media_id
                 - var ext = img_ext(item.media_id)
