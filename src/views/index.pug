@@ -1,6 +1,7 @@
 include ../mixins/post
 include ../mixins/sub
 include ../mixins/header
+include ../utils
 - var subs = []
 doctype html
 html
@@ -42,22 +43,31 @@ html
       +header()
 
       div.hero
-        a(href=`/r/${subreddit}`)
-          h1 r/#{subreddit}
+        div.sub-title
+          a(href=`/r/${subreddit}`)
+            h1 r/#{subreddit}
+          div#button-container
         if about
           p #{about.public_description}
-        div#button-container
-        ul
-          li
-            a(href=`/r/${subreddit}/hot`) hot
-          li
-            a(href=`/r/${subreddit}/top`) top
-          li
-            a(href=`/r/${subreddit}/top?t=all`) top all
+        details
+          summary sort by
+          div.sort-opts
+            a(href=`/r/${subreddit}?sort=hot`) hot
+            a(href=`/r/${subreddit}?sort=new`) new
+            a(href=`/r/${subreddit}?sort=rising`) rising
+            a(href=`/r/${subreddit}?sort=top`) top
+            a(href=`/r/${subreddit}?sort=top&t=day`) top day
+            a(href=`/r/${subreddit}?sort=top&t=week`) top week
+            a(href=`/r/${subreddit}?sort=top&t=month`) top month
+            a(href=`/r/${subreddit}?sort=top&t=year`) top year
+            a(href=`/r/${subreddit}?sort=top&t=all`) top all
 
       if posts
         each child in posts.posts
           +post(child.data)
-        div.footer
-          div.footer-item
-            a(href=`/r/${subreddit}?after=${posts.after}`) next →
+        
+        if posts.after
+          div.footer
+            div.footer-item
+              - var newQuery = {...query, after: posts.after}
+              a(href=`/r/${subreddit}?${encodeQueryParams(newQuery)}`) next →

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 :root {
   /* Light mode colors */
@@ -17,7 +17,7 @@
     --bg-color-muted: #333;
     --text-color: white;
     --text-color-muted: #999;
-    --blockquote-color: green;
+    --blockquote-color: lightgreen;
     --link-color: lightblue;
     --link-visited-color: violet;
   }
@@ -58,6 +58,27 @@ a:visited {
   justify-content: center;
 }
 
+.sub-title {
+  display: flex;
+}
+
+#button-container {
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.sort-opts {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.sort-opts a {
+  margin: 10px;
+}
+
 .footer {
   display: flex;
   flex-direction: row;
@@ -90,13 +111,20 @@ nav {
 .info-container,
 .comment-info-container,
 .more,
+summary.expand-comments::before,
 hr {
   color: var(--text-color-muted)
 }
 
-.info-container, .comment-info-container, .more {
+.info-container, .more {
   font-size: 0.8rem;
   display: flex;
+}
+
+.comment-info-container {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.8rem;
 }
 
 .domain {
@@ -124,6 +152,13 @@ hr {
   display: none
 }
 
+.post-media {
+  display: block;
+  margin: 0 auto;
+  max-width: 95%;
+  padding: 5px;
+}
+
 @media (min-width: 768px) {
   .post, .comments-container, .hero, .header, .footer {
     flex: 1 1 90%;
@@ -135,7 +170,8 @@ hr {
   .comments-container {
     font-size: 1.3rem;
   }
-  .info-container, .comment-info-container, .more {
+  .info-container, .comment-info-container, .more, summary.expand-comments::before
+  {
     font-size: 1rem;
   }
   .domain {
@@ -149,6 +185,9 @@ hr {
   }
   .post-author {
     display: inline
+  }
+  .post-media {
+    max-width: 50%;
   }
 }
 
@@ -163,7 +202,7 @@ hr {
   .comments-container {
     font-size: 1.3rem;
   }
-  .info-container, .comment-info-container, .more {
+  .info-container, .comment-info-container, .more, summary.expand-comments::before {
     font-size: 1rem;
   }
   .domain {
@@ -177,6 +216,9 @@ hr {
   }
   .post-author {
     display: inline
+  }
+  .post-media {
+    max-width: 50%;
   }
 }
 
@@ -229,15 +271,7 @@ hr {
   flex-direction: row;
 }
 
-.post-media {
-  display: block;
-  margin: 0 auto;
-  max-width: 95%;
-  padding: 5px;
-}
-
-.title-container, .comment-info-container {
-  flex: 1;
+.title-container, .comment-info-container, summary.expand-comments::before {
   margin-top: 10px;
   margin-bottom: 10px;
 }
@@ -296,8 +330,29 @@ p {
   text-align: left;
 }
 
-summary {
+summary.expand-post {
   display: none;
+}
+
+summary.expand-comments {
+  list-style: none;
+  cursor: pointer;
+}
+
+summary.expand-comments::before {
+  content: "[+] ";
+}
+
+details[open] summary.expand-comments::before {
+  content: "[-] ";
+}
+
+details:not([open]) summary.expand-comments::before {
+  content: "[+] ";
+}
+
+.comment-body {
+  display: block;
 }
 
 .footer {

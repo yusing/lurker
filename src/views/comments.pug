@@ -1,5 +1,6 @@
 include ../mixins/comment
 include ../mixins/header
+include ../utils
 
 doctype html
 html
@@ -9,6 +10,14 @@ html
     title reddit
     link(rel='stylesheet', href='/styles.css')
     script(src="https://cdn.dashjs.org/latest/dash.all.min.js")
+  script.
+    function toggleDetails(details_id) {
+      var detailsElement = document.getElementById(details_id);
+      if (detailsElement) {
+        detailsElement.open = !detailsElement.open;
+      }
+    }
+
   body
     main#content
       +header()

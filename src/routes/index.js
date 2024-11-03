@@ -11,18 +11,17 @@ router.get('/', async (req, res) => {
 });
 
 // GET /r/:id
-router.get('/r/:subreddit/:sort?', async (req, res) => {
+router.get('/r/:subreddit', async (req, res) => {
   var subreddit = req.params.subreddit;
-  var query = req.query;
-  var sort = req.params.sort ? req.params.sort : 'hot';
-  var options = req.query;
+  var query = req.query? req.query : {};
+  var sort = query.sort? query.sort : 'hot';
 
-  var postsReq = G.getSubmissions(sort, `${subreddit}`, options);
+  var postsReq = G.getSubmissions(sort, `${subreddit}`, query);
   var aboutReq = G.getSubreddit(`${subreddit}`);
 
   var [posts, about] = await Promise.all([postsReq, aboutReq]);
 
-  res.render('index', { subreddit, posts, about });
+  res.render('index', { subreddit, posts, about, query });
 });
 
 // GET /comments/:id
