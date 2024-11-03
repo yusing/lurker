@@ -44,13 +44,14 @@ html
 
       div.hero
         div.sub-title
-          a(href=`/r/${subreddit}`)
-            h1 r/#{subreddit}
+          h1 
+            a(href=`/r/${subreddit}`)
+              | r/#{subreddit}
           div#button-container
         if about
           p #{about.public_description}
         details
-          summary sort by
+          summary sorting by #{query.sort + (query.t?' '+query.t:'')}
           div.sort-opts
             a(href=`/r/${subreddit}?sort=hot`) hot
             a(href=`/r/${subreddit}?sort=new`) new
