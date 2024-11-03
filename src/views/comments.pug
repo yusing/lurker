@@ -22,8 +22,8 @@ html
     main#content
       +header()
       div.hero
-        h3
-          a(href=`/r/${post.subreddit}`) r/#{post.subreddit}
+        h3.sub-title
+          a(href=`/r/${post.subreddit}`) ← r/#{post.subreddit}
 
         h2 #{post.title}
 
