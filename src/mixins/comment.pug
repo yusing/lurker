@@ -2,12 +2,15 @@ include ../utils
 
 mixin infoContainer(data)
   div.comment-info-container
-    div.info-item #{fmtnum(data.ups)} ↑
-    div.info-item u/#{data.author} #{data.is_submitter ? '(OP)' : ''}
+    | #{fmtnum(data.ups)} ↑
+    | &nbsp;·&nbsp;
+    span(class=`${data.is_submitter ? 'op' : ''}`)
+      | u/#{data.author} #{data.is_submitter ? '(op)' : ''}
+    | &nbsp;·&nbsp;
     if data.collapsed_reason_code == "DELETED"
-      div.info-item
-        a(href=`https://undelete.pullpush.io${data.permalink}`) search on undelete
-    div.info-item #{timeDifference(Date.now(), data.created * 1000)}
+      a(href=`https://undelete.pullpush.io${data.permalink}`) search on undelete
+      | &nbsp;·&nbsp;
+    | #{timeDifference(Date.now(), data.created * 1000)}
 
 -
   function hasReplies(data) {
@@ -20,22 +23,16 @@ mixin comment(com, isfirst)
   - var hasReplyData = hasReplies(data)
   
   if kind == "more"
-    div(class=`${isfirst ? 'first' : ''}`)
-      div.more #{data.count} more comments
+    div(class=`more ${isfirst ? 'first' : ''}`)
+      | #{data.count} more comments
   else
     div(class=`comment ${isfirst ? 'first' : ''}`)
-      if hasReplyData
-        details(id=`${data.id}` open="")
-          summary.expand-comments
-            +infoContainer(data)
-          div.comment-body
-            != data.body_html
-    
+      details(id=`${data.id}` open="")
+        summary.expand-comments
+          +infoContainer(data)
+        div.comment-body
+          != data.body_html
+        if hasReplyData
           div.replies
             each reply in data.replies.data.children
               +comment(reply, false)
-    
-      else
-        +infoContainer(data)
-        div.comment-body
-          != data.body_html

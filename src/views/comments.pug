@@ -21,7 +21,15 @@ html
         h3.sub-title
           a(href=`/r/${post.subreddit}`) ← r/#{post.subreddit}
 
-        h2 #{post.title}
+        div.info-container 
+          p
+            | #{fmtnum(post.ups)} ↑ 
+            | &nbsp;·&nbsp; by u/#{post.author} 
+            | &nbsp;·&nbsp; 
+            | #{timeDifference(Date.now(), post.created * 1000)}
+
+        h2.post-title
+          != post.title
 
         if post.is_gallery && post.is_gallery == true
           if post.gallery_data
@@ -47,13 +55,6 @@ html
 
         if post.selftext_html
           p.self-text !{post.selftext_html}
-
-        div.info-container 
-          p
-            | #{fmtnum(post.ups)} ↑ 
-            | &nbsp;·&nbsp; by u/#{post.author} 
-            | &nbsp;·&nbsp; 
-            | #{timeDifference(Date.now(), post.created * 1000)}
 
         hr
 

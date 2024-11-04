@@ -5,7 +5,11 @@ todo:
 - [ ] fix gallery thumbnails
 - [x] pass query params into templates, add into pagination
 - [ ] subscription manager: reorder, mass add
-- [ ] styles for info-containers
+- [x] styles for info-containers
 - [ ] open in reddit/reply in reddit link
 - [ ] placeholder for unresolvable thumbnails
-- [ ] expand/collapse comments
+- [x] expand/collapse comments
+- [x] fix title rendering in views/comments.pug
+- [x] fix spacing between comments
+- [x] collapse even singular comments
+- [ ] highlights for op, sticky etc.

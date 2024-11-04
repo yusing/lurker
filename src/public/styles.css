@@ -7,9 +7,10 @@
   --blockquote-color: green;
   --link-color: #29BC9B;
   --link-visited-color: #999;
+  --accent: var(--link-color);
 
   font-family: Inter, sans-serif;
-  font-feature-settings: 'ss01' 1, 'kern' 1, 'liga' 1, 'cv05' 1, 'tnum' 1, 'dlig' 1, 'ss01' 1, 'ss07' 1, 'ss08' 1;
+  font-feature-settings: 'ss01' 1, 'kern' 1, 'liga' 1, 'cv05' 1, 'dlig' 1, 'ss01' 1, 'ss07' 1, 'ss08' 1;
 
 }
 
@@ -22,6 +23,7 @@
     --blockquote-color: lightgreen;
     --link-color: #79ffe1;
     --link-visited-color: #999;
+    --accent: var(--link-color);
   }
 }
 
@@ -38,7 +40,6 @@ body {
 main {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
   align-items: center;
 }
 
@@ -111,19 +112,19 @@ nav {
 }
 
 .post, .hero {
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 
 .comments-container {
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 
 .info-container a,
 .info-container,
 .comment-info-container,
 .more,
-summary::before,
-hr {
+summary::before
+{
   color: var(--text-color-muted)
 }
 
@@ -163,6 +164,12 @@ summary::before {
   height: 4rem;
 }
 
+.media-preview a {
+  font-size: 2rem;
+  text-decoration: none;
+  padding: 1rem;
+}
+
 .post-author {
   display: none
 }
@@ -180,26 +187,30 @@ summary::before {
     width: 90%;
   }
   .post, .hero {
-    font-size: 1.3rem;
+    font-size: 1rem;
   }
   .comments-container {
-    font-size: 1.3rem;
+    font-size: 1rem;
   }
   .info-container, .comment-info-container, .more
   {
-    font-size: 1rem;
-  }
-  summary::before {
     font-size: 0.8rem;
   }
+  summary::before {
+    font-size: 0.7rem;
+  }
   .domain {
-    font-size: 1rem;
+    font-size: 0.8rem;
   }
   .media-preview img,
   .media-preview video 
   {
     width: 7rem;
     height: 7rem;
+  }
+  .media-preview a {
+    font-size: 2rem;
+    padding: 2rem;
   }
   .post-author {
     display: inline
@@ -215,25 +226,29 @@ summary::before {
     width: 60%;
   }
   .post, .hero {
-    font-size: 1.3rem;
+    font-size: 1rem;
   }
   .comments-container {
-    font-size: 1.3rem;
+    font-size: 1rem;
   }
   .info-container, .comment-info-container, .more {
-    font-size: 1rem;
-  }
-  summary::before {
     font-size: 0.8rem;
   }
+  summary::before {
+    font-size: 0.7rem;
+  }
   .domain {
-    font-size: 1rem;
+    font-size: 0.8rem;
   }
   .media-preview img,
   .media-preview video 
   {
     width: 7rem;
     height: 7rem;
+  }
+  .media-preview a {
+    font-size: 2rem;
+    padding: 2rem;
   }
   .post-author {
     display: inline
@@ -250,7 +265,7 @@ summary::before {
 .comment, .more {
   width: 100%;
   border-left: 1px dashed var(--text-color-muted);
-  padding: 10px 0px 0px 24px;
+  padding: 8px 0px 0px 24px;
   box-sizing: border-box;
 }
 
@@ -258,15 +273,10 @@ summary::before {
   padding: 0px 0px 0px 24px;
 }
 
-.more {
-  margin-bottom: 0px;
-}
-
 .first {
   border-left: none;
   padding-left: 0;
-  margin: 0;
-  margin-top: 40px;
+  margin-top: 10px;
 }
 
 .post-container {
@@ -321,7 +331,9 @@ summary::before {
 }
 
 hr {
-  border 1px solid #000;
+  border: none;
+  border-top: 1px dashed var(--text-color-muted);
+  height: 0;
 }
 
 blockquote {
@@ -401,4 +413,12 @@ a {
 .gallery img {
     width: auto;
     max-height: 500px;
+}
+
+.post-title {
+  margin-top: 0;
+}
+
+.op {
+  color: var(--accent);
 }
