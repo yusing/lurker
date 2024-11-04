@@ -80,6 +80,10 @@ a:visited {
   align-items: center;
 }
 
+.sorting {
+  margin-top: 20px;
+}
+
 .sort-opts {
   display: flex;
   flex-direction: row;
@@ -205,8 +209,8 @@ summary::before {
   .media-preview img,
   .media-preview video 
   {
-    width: 7rem;
-    height: 7rem;
+    width: 5rem;
+    height: 5rem;
   }
   .media-preview a {
     font-size: 2rem;
@@ -243,8 +247,8 @@ summary::before {
   .media-preview img,
   .media-preview video 
   {
-    width: 7rem;
-    height: 7rem;
+    width: 5rem;
+    height: 5rem;
   }
   .media-preview a {
     font-size: 2rem;
@@ -265,12 +269,12 @@ summary::before {
 .comment, .more {
   width: 100%;
   border-left: 1px dashed var(--text-color-muted);
-  padding: 8px 0px 0px 24px;
+  padding: 8px 0px 0px 18px;
   box-sizing: border-box;
 }
 
 .comment {
-  padding: 0px 0px 0px 24px;
+  padding-top: 10px;
 }
 
 .first {
@@ -303,8 +307,8 @@ summary::before {
 }
 
 .title-container, .comment-info-container, summary.expand-comments::before {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .info-container {
@@ -359,10 +363,13 @@ code {
 
 p {
   margin-top: 5px;
+  margin-bottom: 0px;
 }
 
 .comment-body {
   text-align: left;
+  display: block;
+  padding-bottom: 8px;
 }
 
 summary.expand-post {
@@ -382,10 +389,6 @@ details[open] summary::before {
 details:not([open]) summary::before {
   content: "";
   padding-right: 10px;
-}
-
-.comment-body {
-  display: block;
 }
 
 .footer {
@@ -416,9 +419,16 @@ a {
 }
 
 .post-title {
-  margin-top: 0;
+  margin-top: 5px;
 }
 
 .op {
   color: var(--accent);
+}
+
+button {
+  border: 1px solid var(--text-color-muted);
+  border-radius: 4px;
+  background-color: var(--black);
+  color: var(--white);
 }

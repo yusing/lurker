@@ -46,7 +46,7 @@ html
         if about
           p #{about.public_description}
         details
-          summary sorting by #{query.sort + (query.t?' '+query.t:'')}
+          summary.sorting sorting by #{query.sort + (query.t?' '+query.t:'')}
           div.sort-opts
             a(href=`/r/${subreddit}?sort=hot`) hot
             a(href=`/r/${subreddit}?sort=new`) new

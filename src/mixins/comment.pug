@@ -24,7 +24,7 @@ mixin comment(com, isfirst)
   
   if kind == "more"
     div(class=`more ${isfirst ? 'first' : ''}`)
-      | #{data.count} more comments
+      | #{data.count} more #{fmttxt(data.count, 'comment')}
   else
     div(class=`comment ${isfirst ? 'first' : ''}`)
       details(id=`${data.id}` open="")
