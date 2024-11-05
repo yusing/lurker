@@ -4,9 +4,9 @@ html
   +subMgmt()
   script(async).
     window.addEventListener("load", () => {
-      const url = `/r/${getSubs().join('+')}`;
+      const url = getSubs().join('+');
         if (url) {
-          window.location.href = url;
+          window.location.href = '/r/${url}';
         } else {
           window.location.href = '/r/all';
         }
