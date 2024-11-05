@@ -13,3 +13,7 @@ todo:
 - [x] fix spacing between comments
 - [x] collapse even singular comments
 - [ ] highlights for op, sticky etc.
+- [ ] support 'more comments'
+- [ ] avoid js to toggle details in views/index.pug
+- [ ] set home to sum of subs
+- [ ] details tag on safari

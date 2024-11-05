@@ -177,3 +177,5 @@ dist
 reference
 bun.lockb
 result
+
+.direnv

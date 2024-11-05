@@ -83,8 +83,8 @@
       pkgs.mkShell {
         nativeBuildInputs = [
           pkgs.bun
+          pkgs.biome
         ];
-        RUST_BACKTRACE = 1;
       });
 
     packages = forAllSystems (system: {
