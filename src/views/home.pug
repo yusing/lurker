@@ -1,0 +1,13 @@
+include ../mixins/sub
+doctype html
+html
+  +subMgmt()
+  script(async).
+    window.addEventListener("load", () => {
+      const url = `/r/${getSubs().join('+')}`;
+        if (url) {
+          window.location.href = url;
+        } else {
+          window.location.href = '/r/all';
+        }
+    });

@@ -15,5 +15,5 @@ todo:
 - [ ] highlights for op, sticky etc.
 - [ ] support 'more comments'
 - [ ] avoid js to toggle details in views/index.pug
-- [ ] set home to sum of subs
-- [ ] details tag on safari
+- [x] set home to sum of subs
+- [x] details tag on safari

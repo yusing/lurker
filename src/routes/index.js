@@ -6,12 +6,13 @@ const G = new geddit.Geddit();
 
 // GET /
 router.get("/", async (req, res) => {
-	res.redirect("/r/all");
+	res.render("home");
 });
 
 // GET /r/:id
 router.get("/r/:subreddit", async (req, res) => {
 	const subreddit = req.params.subreddit;
+	const isMulti = subreddit.includes("+");
 	const query = req.query ? req.query : {};
 	if (!query.sort) {
 		query.sort = "hot";
@@ -22,7 +23,7 @@ router.get("/r/:subreddit", async (req, res) => {
 
 	const [posts, about] = await Promise.all([postsReq, aboutReq]);
 
-	res.render("index", { subreddit, posts, about, query });
+	res.render("index", { subreddit, posts, about, query, isMulti });
 });
 
 // GET /comments/:id

@@ -26,9 +26,8 @@ mixin post(p)
               - var item = p.gallery_data.items[0]
               - var url = `https://i.redd.it/${item.media_id}.jpg`
               img(src=url onclick=`toggleDetails('${p.id}')`) 
-        else if p.post_hint == "image" || p.post_hint == "link"
-          if p.thumbnail && p.thumbnail != "self" || p.thumbnail != "default"
-            img(src=p.thumbnail onclick=`toggleDetails('${p.id}')`) 
+        else if p.post_hint == "image" && p.thumbnail && p.thumbnail != "self" && p.thumbnail != "default"
+          img(src=p.thumbnail onclick=`toggleDetails('${p.id}')`) 
         else if p.post_hint == "hosted:video"
           - var url = p.secure_media.reddit_video.scrubber_media_url
           video(src=url data-dashjs-player width='100px' height='100px' onclick=`toggleDetails('${p.id}')`)
@@ -76,7 +75,7 @@ mixin post(p)
         - var url = p.secure_media.reddit_video.dash_url
         video(src=url controls data-dashjs-player loading="lazy").post-media
         button(onclick=`toggleDetails('${p.id}')`) close
-    else if !p.post_hint || (p.post_hint == "link" && p.thumbnail && p.thumbnail != "self" && p.thumbnail != "default")
+    else if !p.selftext
       details(id=`${p.id}`)
         summary.expand-post expand link
         a(href=`${p.url}`)

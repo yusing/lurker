@@ -8,7 +8,7 @@ doctype html
 html
   +head()
   +subMgmt()
-  script.
+  script(defer).
     function updateButton(sub) {
       var b = document.getElementById("button-container");
       b.innerHTML = '';
@@ -36,13 +36,16 @@ html
   body
     main#content
       +header()
-
       div.hero
         div.sub-title
           h1 
-            a(href=`/r/${subreddit}`)
-              | r/#{subreddit}
-          div#button-container
+            if isMulti
+              a(href=`/`) readit
+            else
+              a(href=`/r/${subreddit}`)
+                | r/#{subreddit}
+          if !isMulti
+            div#button-container
         if about
           p #{about.public_description}
         details
