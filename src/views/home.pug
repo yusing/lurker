@@ -6,7 +6,7 @@ html
     window.addEventListener("load", () => {
       const url = getSubs().join('+');
         if (url) {
-          window.location.href = '/r/${url}';
+          window.location.href = `/r/${url}`;
         } else {
           window.location.href = '/r/all';
         }
