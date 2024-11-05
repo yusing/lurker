@@ -19,9 +19,8 @@ mixin infoContainer(data)
 
 mixin comment(com, isfirst)
   - var data = com.data
-  - console.log(com)
   - var hasReplyData = hasReplies(data)
-  
+
   if com.kind == "more"
     div(class=`more ${isfirst ? 'first' : ''}`)
       | #{data.count} more #{fmttxt(data.count, 'comment')}

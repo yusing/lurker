@@ -11,25 +11,25 @@ router.get("/", async (req, res) => {
 
 // GET /r/:id
 router.get("/r/:subreddit", async (req, res) => {
-	var subreddit = req.params.subreddit;
-	var query = req.query ? req.query : {};
+	const subreddit = req.params.subreddit;
+	const query = req.query ? req.query : {};
 	if (!query.sort) {
 		query.sort = "hot";
 	}
 
-	var postsReq = G.getSubmissions(query.sort, `${subreddit}`, query);
-	var aboutReq = G.getSubreddit(`${subreddit}`);
+	const postsReq = G.getSubmissions(query.sort, `${subreddit}`, query);
+	const aboutReq = G.getSubreddit(`${subreddit}`);
 
-	var [posts, about] = await Promise.all([postsReq, aboutReq]);
+	const [posts, about] = await Promise.all([postsReq, aboutReq]);
 
 	res.render("index", { subreddit, posts, about, query });
 });
 
 // GET /comments/:id
 router.get("/comments/:id", async (req, res) => {
-	var id = req.params.id;
+	const id = req.params.id;
 
-	var params = {
+	const params = {
 		limit: 50,
 	};
 	response = await G.getSubmissionComments(id, params);
@@ -44,20 +44,19 @@ router.get("/subs", async (req, res) => {
 
 // GET /media
 router.get("/media/*", async (req, res) => {
-	var url = req.params[0];
-	console.log(`making request to ${url}`);
-	return await fetch(url, {
-		headers: {
-			Accept: "*/*",
-		},
-	});
+	const url = req.params[0];
+	const ext = url.split(".").pop().toLowerCase();
+	const kind = ["jpg", "jpeg", "png", "gif", "webp"].includes(ext)
+		? "img"
+		: "video";
+	res.render("media", { kind, url });
 });
 
 module.exports = router;
 
 function unescape_submission(response) {
-	var post = response.submission.data;
-	var comments = response.comments;
+	const post = response.submission.data;
+	const comments = response.comments;
 
 	if (post.selftext_html) {
 		post.selftext_html = he.decode(post.selftext_html);

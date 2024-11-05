@@ -381,6 +381,10 @@ summary {
   cursor: pointer;
 }
 
+summary::-webkit-details-marker {
+  display: none;
+}
+
 details[open] summary::before {
   content: "";
   padding-right: 10px;

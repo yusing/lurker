@@ -12,20 +12,18 @@ class Geddit {
 		};
 	}
 
-	async getSubmissions(sort = null, subreddit = null, options = {}) {
+	async getSubmissions(sort = "hot", subreddit = null, options = {}) {
 		const params = {
 			limit: 20,
 			include_over_18: true,
 		};
 
-		sort = sort ? sort : "hot";
-		subreddit = subreddit ? "/r/" + subreddit : "";
+		subreddit = subreddit ? `/r/${subreddit}` : "";
 
 		return await fetch(
-			this.host +
-				subreddit +
-				`/${sort}.json?` +
-				new URLSearchParams(Object.assign(params, options)),
+			`${
+				this.host + subreddit
+			}/${sort}.json?${new URLSearchParams(Object.assign(params, options))}`,
 		)
 			.then((res) => res.json())
 			.then((json) => json.data)
@@ -38,11 +36,7 @@ class Geddit {
 
 	async getDomainHot(domain, options = this.parameters) {
 		return await fetch(
-			this.host +
-				"/domain/" +
-				domain +
-				"/hot.json?" +
-				new URLSearchParams(options),
+			`${this.host}/domain/${domain}/hot.json?${new URLSearchParams(options)}`,
 		)
 			.then((res) => res.json())
 			.then((json) => json.data)
@@ -55,11 +49,7 @@ class Geddit {
 
 	async getDomainBest(domain, options = this.parameters) {
 		return await fetch(
-			this.host +
-				"/domain/" +
-				domain +
-				"/best.json?" +
-				new URLSearchParams(options),
+			`${this.host}/domain/${domain}/best.json?${new URLSearchParams(options)}`,
 		)
 			.then((res) => res.json())
 			.then((json) => json.data)
@@ -72,11 +62,7 @@ class Geddit {
 
 	async getDomainTop(domain, options = this.parameters) {
 		return await fetch(
-			this.host +
-				"/domain/" +
-				domain +
-				"/top.json?" +
-				new URLSearchParams(options),
+			`${this.host}/domain/${domain}/top.json?${new URLSearchParams(options)}`,
 		)
 			.then((res) => res.json())
 			.then((json) => json.data)
@@ -89,11 +75,7 @@ class Geddit {
 
 	async getDomainNew(domain, options = this.parameters) {
 		return await fetch(
-			this.host +
-				"/domain/" +
-				domain +
-				"/new.json?" +
-				new URLSearchParams(options),
+			`${this.host}/domain/${domain}/new.json?${new URLSearchParams(options)}`,
 		)
 			.then((res) => res.json())
 			.then((json) => json.data)
@@ -106,11 +88,7 @@ class Geddit {
 
 	async getDomainRising(domain, options = this.parameters) {
 		return await fetch(
-			this.host +
-				"/domain/" +
-				domain +
-				"/rising.json?" +
-				new URLSearchParams(options),
+			`${this.host}/domain/${domain}/rising.json?${new URLSearchParams(options)}`,
 		)
 			.then((res) => res.json())
 			.then((json) => json.data)
@@ -123,11 +101,7 @@ class Geddit {
 
 	async getDomainControversial(domain, options = this.parameters) {
 		return await fetch(
-			this.host +
-				"/domain/" +
-				domain +
-				"/controversial.json?" +
-				new URLSearchParams(options),
+			`${this.host}/domain/${domain}/controversial.json?${new URLSearchParams(options)}`,
 		)
 			.then((res) => res.json())
 			.then((json) => json.data)
@@ -139,51 +113,47 @@ class Geddit {
 	}
 
 	async getSubreddit(subreddit) {
-		return await fetch(this.host + "/r/" + subreddit + "/about.json")
+		return await fetch(`${this.host}/r/${subreddit}/about.json`)
 			.then((res) => res.json())
 			.then((json) => json.data)
 			.catch((err) => null);
 	}
 
 	async getSubredditRules(subreddit) {
-		return await fetch(this.host + "/r/" + subreddit + "/about/rules.json")
+		return await fetch(`${this.host}/r/${subreddit}/about/rules.json`)
 			.then((res) => res.json())
 			.then((json) => json.data)
 			.catch((err) => null);
 	}
 
 	async getSubredditModerators(subreddit) {
-		return await fetch(this.host + "/r/" + subreddit + "/about/moderators.json")
+		return await fetch(`${this.host}/r/${subreddit}/about/moderators.json`)
 			.then((res) => res.json())
 			.then((json) => json.data)
-			.then(
-				(data = {
+			.then({
+				data: {
 					users: data.children,
-				}),
-			)
+				},
+			})
 			.catch((err) => null);
 	}
 
 	async getSubredditWikiPages(subreddit) {
-		return await fetch(this.host + "/r/" + subreddit + "/wiki/pages.json")
+		return await fetch(`${this.host}/r/${subreddit}/wiki/pages.json`)
 			.then((res) => res.json())
 			.then((json) => json.data)
 			.catch((err) => null);
 	}
 
 	async getSubredditWikiPage(subreddit, page) {
-		return await fetch(
-			this.host + "/r/" + subreddit + "/wiki/" + page + ".json",
-		)
+		return await fetch(`${this.host}/r/${subreddit}/wiki/${page}.json`)
 			.then((res) => res.json())
 			.then((json) => json.data)
 			.catch((err) => null);
 	}
 
 	async getSubredditWikiPageRevisions(subreddit, page) {
-		return await fetch(
-			this.host + "/r/" + subreddit + "/wiki/revisions" + page + ".json",
-		)
+		return await fetch(`${this.host}/r/${subreddit}/wiki/revisions${page}.json`)
 			.then((res) => res.json())
 			.then((json) => json.data.children)
 			.catch((err) => null);
@@ -191,7 +161,7 @@ class Geddit {
 
 	async getPopularSubreddits(options = this.parameters) {
 		return await fetch(
-			this.host + "/subreddits/popular.json?" + new URLSearchParams(options),
+			`${this.host}/subreddits/popular.json?${new URLSearchParams(options)}`,
 		)
 			.then((res) => res.json())
 			.then((json) => json.data)
@@ -204,7 +174,7 @@ class Geddit {
 
 	async getNewSubreddits(options = this.parameters) {
 		return await fetch(
-			this.host + "/subreddits/new.json?" + new URLSearchParams(options),
+			`${this.host}/subreddits/new.json?${new URLSearchParams(options)}`,
 		)
 			.then((res) => res.json())
 			.then((json) => json.data)
@@ -217,7 +187,7 @@ class Geddit {
 
 	async getPremiumSubreddits(options = this.parameters) {
 		return await fetch(
-			this.host + "/subreddits/premium.json?" + new URLSearchParams(options),
+			`${this.host}/subreddits/premium.json?${new URLSearchParams(options)}`,
 		)
 			.then((res) => res.json())
 			.then((json) => json.data)
@@ -230,7 +200,7 @@ class Geddit {
 
 	async getDefaultSubreddits(options = this.parameters) {
 		return await fetch(
-			this.host + "/subreddits/default.json?" + new URLSearchParams(options),
+			`${this.host}/subreddits/default.json?${new URLSearchParams(options)}`,
 		)
 			.then((res) => res.json())
 			.then((json) => json.data)
@@ -243,7 +213,7 @@ class Geddit {
 
 	async getPopularUsers(options = this.parameters) {
 		return await fetch(
-			this.host + "/users/popular.json?" + new URLSearchParams(options),
+			`${this.host}/users/popular.json?${new URLSearchParams(options)}`,
 		)
 			.then((res) => res.json())
 			.then((json) => json.data)
@@ -256,7 +226,7 @@ class Geddit {
 
 	async getNewUsers(options = this.parameters) {
 		return await fetch(
-			this.host + "/users/new.json?" + new URLSearchParams(options),
+			`${this.host}/users/new.json?${new URLSearchParams(options)}`,
 		)
 			.then((res) => res.json())
 			.then((json) => json.data)
@@ -277,9 +247,7 @@ class Geddit {
 		};
 
 		return await fetch(
-			this.host +
-				"/search.json?" +
-				new URLSearchParams(Object.assign(params, options)),
+			`${this.host}/search.json?${new URLSearchParams(Object.assign(params, options))}`,
 		)
 			.then((res) => res.json())
 			.then((json) => json.data)
@@ -299,9 +267,7 @@ class Geddit {
 		};
 
 		return await fetch(
-			this.host +
-				"/subreddits/search.json?" +
-				new URLSearchParams(Object.assign(params, options)),
+			`${this.host}/subreddits/search.json?${new URLSearchParams(Object.assign(params, options))}`,
 		)
 			.then((res) => res.json())
 			.then((json) => json.data)
@@ -321,9 +287,7 @@ class Geddit {
 		};
 
 		return await fetch(
-			this.host +
-				"/users/search.json?" +
-				new URLSearchParams(Object.assign(params, options)),
+			`${this.host}/users/search.json?${new URLSearchParams(Object.assign(params, options))}`,
 		)
 			.then((res) => res.json())
 			.then((json) => json.data)
@@ -336,7 +300,7 @@ class Geddit {
 
 	async searchAll(query, subreddit = null, options = {}) {
 		options.q = query;
-		subreddit = subreddit ? "/r/" + subreddit : "";
+		subreddit = subreddit ? `/r/${subreddit}` : "";
 
 		const params = {
 			limit: 25,
@@ -345,10 +309,9 @@ class Geddit {
 		};
 
 		return await fetch(
-			this.host +
-				subreddit +
-				"/search.json?" +
-				new URLSearchParams(Object.assign(params, options)),
+			`${
+				this.host + subreddit
+			}/search.json?${new URLSearchParams(Object.assign(params, options))}`,
 		)
 			.then((res) => res.json())
 			.then((json) =>
@@ -366,7 +329,7 @@ class Geddit {
 	}
 
 	async getSubmission(id) {
-		return await fetch(this.host + "/by_id/" + id + ".json")
+		return await fetch(`${this.host}/by_id/${id}.json`)
 			.then((res) => res.json())
 			.then((json) => json.data.children[0].data)
 			.catch((err) => null);
@@ -374,7 +337,7 @@ class Geddit {
 
 	async getSubmissionComments(id, options = this.parameters) {
 		return await fetch(
-			this.host + "/comments/" + id + ".json?" + new URLSearchParams(options),
+			`${this.host}/comments/${id}.json?${new URLSearchParams(options)}`,
 		)
 			.then((res) => res.json())
 			.then((json) => ({
@@ -386,11 +349,7 @@ class Geddit {
 
 	async getSubredditComments(subreddit, options = this.parameters) {
 		return await fetch(
-			this.host +
-				"/r/" +
-				subreddit +
-				"/comments.json?" +
-				new URLSearchParams(options),
+			`${this.host}/r/${subreddit}/comments.json?${new URLSearchParams(options)}`,
 		)
 			.then((res) => res.json())
 			.then((json) => json.data.children)
@@ -398,7 +357,7 @@ class Geddit {
 	}
 
 	async getUser(username) {
-		return await fetch(this.host + "/user/" + username + "/about.json")
+		return await fetch(`${this.host}/user/${username}/about.json`)
 			.then((res) => res.json())
 			.then((json) => json.data)
 			.catch((err) => null);
@@ -406,11 +365,7 @@ class Geddit {
 
 	async getUserOverview(username, options = this.parameters) {
 		return await fetch(
-			this.host +
-				"/user/" +
-				username +
-				"/overview.json?" +
-				new URLSearchParams(options),
+			`${this.host}/user/${username}/overview.json?${new URLSearchParams(options)}`,
 		)
 			.then((res) => res.json())
 			.then((json) => json.data)
@@ -423,11 +378,7 @@ class Geddit {
 
 	async getUserComments(username, options = this.parameters) {
 		return await fetch(
-			this.host +
-				"/user/" +
-				username +
-				"/comments.json?" +
-				new URLSearchParams(options),
+			`${this.host}/user/${username}/comments.json?${new URLSearchParams(options)}`,
 		)
 			.then((res) => res.json())
 			.then((json) => json.data)
@@ -440,11 +391,7 @@ class Geddit {
 
 	async getUserSubmissions(username, options = this.parameters) {
 		return await fetch(
-			this.host +
-				"/user/" +
-				username +
-				"/submitted.json?" +
-				new URLSearchParams(options),
+			`${this.host}/user/${username}/submitted.json?${new URLSearchParams(options)}`,
 		)
 			.then((res) => res.json())
 			.then((json) => json.data)
@@ -456,7 +403,7 @@ class Geddit {
 	}
 
 	async getLiveThread(id) {
-		return await fetch(this.host + "/live/" + id + "/about.json")
+		return await fetch(`${this.host}/live/${id}/about.json`)
 			.then((res) => res.json())
 			.then((json) => json.data)
 			.catch((err) => null);
@@ -464,7 +411,7 @@ class Geddit {
 
 	async getLiveThreadUpdates(id, options = this.parameters) {
 		return await fetch(
-			this.host + "/live/" + id + ".json?" + new URLSearchParams(options),
+			`${this.host}/live/${id}.json?${new URLSearchParams(options)}`,
 		)
 			.then((res) => res.json())
 			.then((json) => json.data.children)
@@ -473,11 +420,7 @@ class Geddit {
 
 	async getLiveThreadContributors(id, options = this.parameters) {
 		return await fetch(
-			this.host +
-				"/live/" +
-				id +
-				"/contributors.json?" +
-				new URLSearchParams(options),
+			`${this.host}/live/${id}/contributors.json?${new URLSearchParams(options)}`,
 		)
 			.then((res) => res.json())
 			.then((json) => json.data.children)
@@ -486,11 +429,7 @@ class Geddit {
 
 	async getLiveThreadDiscussions(id, options = this.parameters) {
 		return await fetch(
-			this.host +
-				"/live/" +
-				id +
-				"/discussions.json?" +
-				new URLSearchParams(options),
+			`${this.host}/live/${id}/discussions.json?${new URLSearchParams(options)}`,
 		)
 			.then((res) => res.json())
 			.then((json) => json.data.children)
@@ -499,7 +438,7 @@ class Geddit {
 
 	async getLiveThreadsNow(options = this.parameters) {
 		return await fetch(
-			this.host + "/live/happening_now.json?" + new URLSearchParams(options),
+			`${this.host}/live/happening_now.json?${new URLSearchParams(options)}`,
 		)
 			.then((res) => res.json())
 			.then((json) => json.data.children)
