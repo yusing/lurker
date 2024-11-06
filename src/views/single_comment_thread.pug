@@ -1,0 +1,21 @@
+include ../mixins/comment
+include ../mixins/header
+include ../mixins/head
+include ../utils
+
+doctype html
+html
+  +head()
+  body
+    main#content
+      +header()
+      div.comments-container
+        a(href=`/comments/${parent_id}`)
+          | ← back to parent thread
+        if comments.length == 0
+          div
+            p nothing to see here, this thread was shadow-banned?
+        else
+          each comment in comments
+            +comment(comment, true, parent_id)
+

@@ -347,6 +347,18 @@ class Geddit {
 			.catch((err) => null);
 	}
 
+	async getSingleCommentThread(parent_id, child_id, options = this.parameters) {
+		return await fetch(
+			`${this.host}/comments/${parent_id}/comment/${child_id}.json?${new URLSearchParams(options)}`,
+		)
+			.then((res) => res.json())
+			.then((json) => ({
+				submission: json[0].data.children[0],
+				comments: json[1].data.children,
+			}))
+			.catch((err) => null);
+	}
+
 	async getSubredditComments(subreddit, options = this.parameters) {
 		return await fetch(
 			`${this.host}/r/${subreddit}/comments.json?${new URLSearchParams(options)}`,

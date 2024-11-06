@@ -38,6 +38,20 @@ router.get("/comments/:id", async (req, res) => {
 	res.render("comments", unescape_submission(response));
 });
 
+// GET /comments/:parent_id/comment/:child_id
+router.get("/comments/:parent_id/comment/:child_id", async (req, res) => {
+	const parent_id = req.params.parent_id;
+	const child_id = req.params.child_id;
+
+	const params = {
+		limit: 50,
+	};
+	response = await G.getSingleCommentThread(parent_id, child_id, params);
+	const comments = response.comments;
+	comments.forEach(unescape_comment);
+	res.render("single_comment_thread", { comments, parent_id });
+});
+
 // GET /subs
 router.get("/subs", async (req, res) => {
 	res.render("subs");

@@ -17,13 +17,14 @@ mixin infoContainer(data)
     return data.replies && data.replies.data && data.replies.data.children && data.replies.data.children.length > 0;
   }
 
-mixin comment(com, isfirst)
+mixin comment(com, isfirst, parent_id)
   - var data = com.data
   - var hasReplyData = hasReplies(data)
 
   if com.kind == "more"
     div(class=`more ${isfirst ? 'first' : ''}`)
-      | #{data.count} more #{fmttxt(data.count, 'comment')}
+      a(href=`/comments/${parent_id}/comment/${data.id}`)
+        | #{data.count} more #{fmttxt(data.count, 'comment')}
   else
     div(class=`comment ${isfirst ? 'first' : ''}`)
       details(id=`${data.id}` open="")
@@ -34,4 +35,4 @@ mixin comment(com, isfirst)
         if hasReplyData
           div.replies
             each reply in data.replies.data.children
-              +comment(reply, false)
+              +comment(reply, false, parent_id)

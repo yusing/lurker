@@ -47,7 +47,8 @@ main {
 .sub-title a,
 .info-container a,
 .comment-info-container a,
-.sort-opts a {
+.sort-opts a,
+.more a {
   text-decoration: none;
 }
 
@@ -334,6 +335,10 @@ summary::before {
   color: var(--text-color);
 }
 
+.more a {
+  color: var(--text-color-muted);
+}
+
 hr {
   border: none;
   border-top: 1px dashed var(--text-color-muted);
@@ -366,10 +371,20 @@ p {
   margin-bottom: 0px;
 }
 
+.self-text p {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 .comment-body {
   text-align: left;
   display: block;
   padding-bottom: 8px;
+}
+
+.comment-body img {
+  height: 200px;
+  width: auto;
 }
 
 summary.expand-post {

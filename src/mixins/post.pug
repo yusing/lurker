@@ -31,7 +31,7 @@ mixin post(p)
         else if p.post_hint == "hosted:video"
           - var url = p.secure_media.reddit_video.scrubber_media_url
           video(src=url data-dashjs-player width='100px' height='100px' onclick=`toggleDetails('${p.id}')`)
-        else if !p.selftext
+        else if p.post_hint == "link"
           a(href=p.url)
             | ↗
 
@@ -75,7 +75,7 @@ mixin post(p)
         - var url = p.secure_media.reddit_video.dash_url
         video(src=url controls data-dashjs-player loading="lazy").post-media
         button(onclick=`toggleDetails('${p.id}')`) close
-    else if !p.selftext
+    else if p.post_hint == "link"
       details(id=`${p.id}`)
         summary.expand-post expand link
         a(href=`${p.url}`)
