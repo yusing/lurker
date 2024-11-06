@@ -191,21 +191,24 @@ summary::before {
     flex: 1 1 90%;
     width: 90%;
   }
-  .post, .hero {
-    font-size: 1rem;
-  }
-  .comments-container {
-    font-size: 1rem;
-  }
-  .info-container, .comment-info-container, .more
+  .media-preview img,
+  .media-preview video 
   {
-    font-size: 0.8rem;
+    width: 5rem;
+    height: 5rem;
   }
-  summary::before {
-    font-size: 0.7rem;
+  .post-author {
+    display: inline
   }
-  .domain {
-    font-size: 0.8rem;
+  .post-media {
+    max-width: 50%;
+  }
+}
+
+@media (min-width: 1080px) {
+  .post, .comments-container, .hero, .header, .footer {
+    flex: 1 1 60%;
+    width: 60%;
   }
   .media-preview img,
   .media-preview video 
@@ -225,41 +228,10 @@ summary::before {
   }
 }
 
-@media (min-width: 1080px) {
+@media (min-width: 2560px) {
   .post, .comments-container, .hero, .header, .footer {
-    flex: 1 1 60%;
-    width: 60%;
-  }
-  .post, .hero {
-    font-size: 1rem;
-  }
-  .comments-container {
-    font-size: 1rem;
-  }
-  .info-container, .comment-info-container, .more {
-    font-size: 0.8rem;
-  }
-  summary::before {
-    font-size: 0.7rem;
-  }
-  .domain {
-    font-size: 0.8rem;
-  }
-  .media-preview img,
-  .media-preview video 
-  {
-    width: 5rem;
-    height: 5rem;
-  }
-  .media-preview a {
-    font-size: 2rem;
-    padding: 2rem;
-  }
-  .post-author {
-    display: inline
-  }
-  .post-media {
-    max-width: 50%;
+    flex: 1 1 40%;
+    width: 40%;
   }
 }
 
