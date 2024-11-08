@@ -67,6 +67,53 @@ router.get("/media/*", async (req, res) => {
 	res.render("media", { kind, url });
 });
 
+// POST /register
+router.post("/register", async (req, res) => {
+	const { username, password } = req.body;
+	try {
+		db.run("INSERT INTO users (username, password) VALUES (?, ?)", [
+			username,
+			password,
+		]);
+		res.status(201).send("User registered successfully");
+	} catch (err) {
+		res.status(400).send("Error registering user");
+	}
+});
+
+// POST /login
+router.post("/login", async (req, res) => {
+	const { username, password } = req.body;
+	const user = db
+		.query("SELECT * FROM users WHERE username = ? AND password = ?", [
+			username,
+			password,
+		])
+		.get();
+	if (user) {
+		res.status(200).send("Login successful");
+	} else {
+		res.status(401).send("Invalid credentials");
+	}
+});
+
+// POST /subscribe
+router.post("/subscribe", async (req, res) => {
+	const { username, subreddit } = req.body;
+	const user = db
+		.query("SELECT * FROM users WHERE username = ?", [username])
+		.get();
+	if (user) {
+		db.run("INSERT INTO subscriptions (user_id, subreddit) VALUES (?, ?)", [
+			user.id,
+			subreddit,
+		]);
+		res.status(201).send("Subscribed successfully");
+	} else {
+		res.status(404).send("User not found");
+	}
+});
+
 module.exports = router;
 
 function unescape_submission(response) {
