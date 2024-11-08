@@ -87,6 +87,7 @@ router.post("/register", async (req, res) => {
 		]);
 		res.status(201).send("User registered successfully");
 	} catch (err) {
+		console.log(err);
 		res.status(400).send("Error registering user");
 	}
 });
@@ -115,10 +116,10 @@ router.post("/subscribe", async (req, res) => {
 		.get();
 	if (user) {
 		const existingSubscription = db
-			.query("SELECT * FROM subscriptions WHERE user_id = ? AND subreddit = ?", [
-				user.id,
-				subreddit,
-			])
+			.query(
+				"SELECT * FROM subscriptions WHERE user_id = ? AND subreddit = ?",
+				[user.id, subreddit],
+			)
 			.get();
 		if (existingSubscription) {
 			res.status(400).send("Already subscribed to this subreddit");
@@ -141,10 +142,10 @@ router.post("/unsubscribe", async (req, res) => {
 		.get();
 	if (user) {
 		const existingSubscription = db
-			.query("SELECT * FROM subscriptions WHERE user_id = ? AND subreddit = ?", [
-				user.id,
-				subreddit,
-			])
+			.query(
+				"SELECT * FROM subscriptions WHERE user_id = ? AND subreddit = ?",
+				[user.id, subreddit],
+			)
 			.get();
 		if (existingSubscription) {
 			db.run("DELETE FROM subscriptions WHERE user_id = ? AND subreddit = ?", [
