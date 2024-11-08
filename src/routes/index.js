@@ -2,6 +2,7 @@ const express = require("express");
 const he = require("he");
 const router = express.Router();
 const geddit = require("../geddit.js");
+const { db } = require("../index");
 const G = new geddit.Geddit();
 
 // GET /

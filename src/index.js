@@ -33,6 +33,8 @@ db.run(`
   )
 `);
 
+module.exports = { db };
+
 const port = process.env.READIT_PORT;
 const server = app.listen(port ? port : 3000, () => {
 	console.log(`started on ${server.address().port}`);
