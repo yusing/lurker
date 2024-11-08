@@ -424,3 +424,45 @@ button {
   color: var(--text-color);
   padding: 5px;
 }
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  box-sizing: border-box;
+  border: 1px solid var(--bg-color-muted);
+  border-radius: 4px;
+  background-color: var(--bg-color-muted);
+  color: var(--text-color);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+form label {
+  width: 100%;
+  margin: 5px 0;
+  color: var(--text-color);
+}
+
+form input[type="submit"] {
+  width: auto;
+  padding: 10px 20px;
+  margin-top: 20px;
+  background-color: var(--link-color);
+  color: var(--bg-color);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+form input[type="submit"]:hover {
+  background-color: var(--link-color);
+  opacity: 0.8;
+}
