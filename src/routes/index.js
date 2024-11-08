@@ -52,6 +52,10 @@ router.get("/comments/:parent_id/comment/:child_id", async (req, res) => {
 	res.render("single_comment_thread", { comments, parent_id });
 });
 
+router.get("/login", async (req, res) => {
+	res.render("login");
+});
+
 // GET /subs
 router.get("/subs", async (req, res) => {
 	res.render("subs");
