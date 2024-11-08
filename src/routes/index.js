@@ -104,11 +104,21 @@ router.post("/subscribe", async (req, res) => {
 		.query("SELECT * FROM users WHERE username = ?", [username])
 		.get();
 	if (user) {
-		db.run("INSERT INTO subscriptions (user_id, subreddit) VALUES (?, ?)", [
-			user.id,
-			subreddit,
-		]);
-		res.status(201).send("Subscribed successfully");
+		const existingSubscription = db
+			.query("SELECT * FROM subscriptions WHERE user_id = ? AND subreddit = ?", [
+				user.id,
+				subreddit,
+			])
+			.get();
+		if (existingSubscription) {
+			res.status(400).send("Already subscribed to this subreddit");
+		} else {
+			db.run("INSERT INTO subscriptions (user_id, subreddit) VALUES (?, ?)", [
+				user.id,
+				subreddit,
+			]);
+			res.status(201).send("Subscribed successfully");
+		}
 	} else {
 		res.status(404).send("User not found");
 	}
