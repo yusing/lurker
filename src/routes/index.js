@@ -124,6 +124,32 @@ router.post("/subscribe", async (req, res) => {
 	}
 });
 
+router.post("/unsubscribe", async (req, res) => {
+	const { username, subreddit } = req.body;
+	const user = db
+		.query("SELECT * FROM users WHERE username = ?", [username])
+		.get();
+	if (user) {
+		const existingSubscription = db
+			.query("SELECT * FROM subscriptions WHERE user_id = ? AND subreddit = ?", [
+				user.id,
+				subreddit,
+			])
+			.get();
+		if (existingSubscription) {
+			db.run("DELETE FROM subscriptions WHERE user_id = ? AND subreddit = ?", [
+				user.id,
+				subreddit,
+			]);
+			res.status(200).send("Unsubscribed successfully");
+		} else {
+			res.status(400).send("Subscription not found");
+		}
+	} else {
+		res.status(404).send("User not found");
+	}
+});
+
 module.exports = router;
 
 function unescape_submission(response) {
