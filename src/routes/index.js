@@ -71,9 +71,15 @@ router.get("/media/*", async (req, res) => {
 	res.render("media", { kind, url });
 });
 
-// POST /register
+router.get("/register", async (req, res) => {
+	res.render("register");
+});
+
 router.post("/register", async (req, res) => {
-	const { username, password } = req.body;
+	const { username, password, confirm_password } = req.body;
+	if (password !== confirm_password) {
+		return res.status(400).send("Passwords do not match");
+	}
 	try {
 		db.run("INSERT INTO users (username, password) VALUES (?, ?)", [
 			username,
