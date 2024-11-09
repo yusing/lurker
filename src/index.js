@@ -38,6 +38,8 @@ const createSubs = db.query(`
 
 createSubs.run();
 
+const db = new Database("readit.db");
+
 module.exports = { db };
 
 const port = process.env.READIT_PORT;

@@ -3,6 +3,7 @@ const he = require("he");
 const router = express.Router();
 const geddit = require("../geddit.js");
 const { db } = require("../index");
+console.log("DB instance:", db);
 const G = new geddit.Geddit();
 
 // GET /
