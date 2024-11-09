@@ -1,7 +1,9 @@
 const express = require("express");
 const he = require("he");
 const { hash, compare } = require("bun");
+const jwt = require("jsonwebtoken");
 const router = express.Router();
+const secretKey = "your_secret_key"; // Replace with your actual secret key
 const geddit = require("../geddit.js");
 const { db } = require("../index");
 const G = new geddit.Geddit();
