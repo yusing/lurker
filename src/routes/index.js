@@ -90,7 +90,7 @@ router.post("/register", async (req, res) => {
 			username,
 			password,
 		]).run();
-		res.status(201).send("User registered successfully");
+		res.status(201).redirect("/");
 	} catch (err) {
 		console.log(err);
 		res.status(400).send("Error registering user");
@@ -107,7 +107,7 @@ router.post("/login", async (req, res) => {
 		])
 		.get();
 	if (user) {
-		res.status(200).send("Login successful");
+		res.status(200).redirect("/");
 	} else {
 		res.status(401).send("Invalid credentials");
 	}
