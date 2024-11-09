@@ -13,9 +13,9 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/", routes);
 
-const db = new Database("users.db");
+const db = new Database("readit.db");
 
-db.run(`
+const createUsers = db.query(`
   CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT UNIQUE,
@@ -23,7 +23,9 @@ db.run(`
   )
 `);
 
-db.run(`
+createUsers.run();
+
+const createSubs = db.query(`
   CREATE TABLE IF NOT EXISTS subscriptions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER,
@@ -32,6 +34,8 @@ db.run(`
     UNIQUE(user_id, subreddit)
   )
 `);
+
+createSubs.run();
 
 module.exports = { db };
 

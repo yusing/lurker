@@ -82,10 +82,10 @@ router.post("/register", async (req, res) => {
 		return res.status(400).send("Passwords do not match");
 	}
 	try {
-		db.run("INSERT INTO users (username, password) VALUES (?, ?)", [
+		db.query("INSERT INTO users (username, password) VALUES (?, ?)", [
 			username,
 			password,
-		]);
+		]).run();
 		res.status(201).send("User registered successfully");
 	} catch (err) {
 		console.log(err);
@@ -125,10 +125,10 @@ router.post("/subscribe", async (req, res) => {
 		if (existingSubscription) {
 			res.status(400).send("Already subscribed to this subreddit");
 		} else {
-			db.run("INSERT INTO subscriptions (user_id, subreddit) VALUES (?, ?)", [
+			db.query("INSERT INTO subscriptions (user_id, subreddit) VALUES (?, ?)", [
 				user.id,
 				subreddit,
-			]);
+			]).run();
 			res.status(201).send("Subscribed successfully");
 		}
 	} else {
