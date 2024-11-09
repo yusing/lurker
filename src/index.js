@@ -1,18 +1,7 @@
 const express = require("express");
 const path = require("node:path");
-const routes = require("./routes/index");
 const geddit = require("./geddit.js");
 const { Database } = require("bun:sqlite");
-
-const app = express();
-
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "pug");
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "public")));
-app.use("/", routes);
 
 const db = new Database("readit.db");
 
@@ -38,9 +27,18 @@ const createSubs = db.query(`
 
 createSubs.run();
 
-const db = new Database("readit.db");
-
 module.exports = { db };
+
+const app = express();
+
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "pug");
+
+const routes = require("./routes/index");
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, "public")));
+app.use("/", routes);
 
 const port = process.env.READIT_PORT;
 const server = app.listen(port ? port : 3000, () => {
