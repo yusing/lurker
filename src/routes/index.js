@@ -78,6 +78,10 @@ router.get("/register", async (req, res) => {
 
 router.post("/register", async (req, res) => {
 	const { username, password, confirm_password } = req.body;
+	console.log("Request body:", req.body);
+	if (!username || !password || !confirm_password) {
+		return res.status(400).send("All fields are required");
+	}
 	if (password !== confirm_password) {
 		return res.status(400).send("Passwords do not match");
 	}
