@@ -1,6 +1,6 @@
 const express = require("express");
 const he = require("he");
-const bcrypt = require("bcrypt");
+const { hash, compare } = require("bun");
 const router = express.Router();
 const geddit = require("../geddit.js");
 const { db } = require("../index");
@@ -87,7 +87,7 @@ router.post("/register", async (req, res) => {
 		return res.status(400).send("Passwords do not match");
 	}
 	try {
-		const hashedPassword = await bcrypt.hash(password, 10);
+		const hashedPassword = await hash(password);
 		db.query("INSERT INTO users (username, password_hash) VALUES (?, ?)", [
 			username,
 			hashedPassword,
@@ -105,7 +105,7 @@ router.post("/login", async (req, res) => {
 	const user = db
 		.query("SELECT * FROM users WHERE username = ?", [username])
 		.get();
-	if (user && await bcrypt.compare(password, user.password_hash)) {
+	if (user && await compare(password, user.password_hash)) {
 		res.status(200).redirect("/");
 	} else {
 		res.status(401).send("Invalid credentials");
