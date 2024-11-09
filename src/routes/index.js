@@ -1,5 +1,6 @@
 const express = require("express");
 const he = require("he");
+const bcrypt = require("bcrypt");
 const router = express.Router();
 const geddit = require("../geddit.js");
 const { db } = require("../index");
@@ -86,9 +87,10 @@ router.post("/register", async (req, res) => {
 		return res.status(400).send("Passwords do not match");
 	}
 	try {
-		db.query("INSERT INTO users (username, password) VALUES (?, ?)", [
+		const hashedPassword = await bcrypt.hash(password, 10);
+		db.query("INSERT INTO users (username, password_hash) VALUES (?, ?)", [
 			username,
-			password,
+			hashedPassword,
 		]).run();
 		res.status(201).redirect("/");
 	} catch (err) {
@@ -101,12 +103,9 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
 	const { username, password } = req.body;
 	const user = db
-		.query("SELECT * FROM users WHERE username = ? AND password = ?", [
-			username,
-			password,
-		])
+		.query("SELECT * FROM users WHERE username = ?", [username])
 		.get();
-	if (user) {
+	if (user && await bcrypt.compare(password, user.password_hash)) {
 		res.status(200).redirect("/");
 	} else {
 		res.status(401).send("Invalid credentials");
