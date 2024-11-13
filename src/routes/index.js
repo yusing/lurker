@@ -15,9 +15,13 @@ router.get("/", authenticateToken, async (req, res) => {
 	const subs = db
 		.query("SELECT * FROM subscriptions WHERE user_id = $id")
 		.all({ id: req.user.id });
-	const p = subs.map((s) => s.subreddit).join("+");
-	console.log(p);
-	res.redirect(`/r/${p}`);
+	if (subs.length === 0) {
+		res.redirect("/r/all");
+	} else {
+		const p = subs.map((s) => s.subreddit).join("+");
+		console.log(p);
+		res.redirect(`/r/${p}`);
+	}
 });
 
 // GET /r/:id
