@@ -9,7 +9,7 @@ html
   +head("home")
   +subMgmt()
   script(defer).
-    function updateButton(sub) {
+    async function updateButton(sub) {
       var b = document.getElementById("button-container");
       b.innerHTML = '';
 
@@ -17,12 +17,36 @@ html
 
       if (issub(sub)) {
          button.innerText = "unsubscribe";
-         button.onclick = ()=>unsubscribe(sub);
+         button.onclick = async () => await unsubscribe(sub);
       } else {
          button.innerText = "subscribe";
-         button.onclick = ()=>subscribe(sub);
+         button.onclick = async () => await subscribe(sub);
       }
       b.appendChild(button);
+    }
+
+    async function subscribe(sub) {
+      await postSubscription(sub, true);
+      updateButton(sub);
+    }
+
+    async function unsubscribe(sub) {
+      await postSubscription(sub, false);
+      updateButton(sub);
+    }
+
+    async function postSubscription(sub, subscribe) {
+      const response = await fetch('/subscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ subreddit: sub, subscribe: subscribe }),
+      });
+
+      if (!response.ok) {
+        console.error('Failed to update subscription');
+      }
     }
 
     function toggleDetails(details_id) {
@@ -32,7 +56,7 @@ html
       }
     }
 
-    document.addEventListener('DOMContentLoaded', ()=>updateButton("#{subreddit}"));
+    document.addEventListener('DOMContentLoaded', () => updateButton("#{subreddit}"));
   body
     main#content
       +header(user)
