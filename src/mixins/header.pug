@@ -1,4 +1,4 @@
-mixin header()
+mixin header(user)
   div.header
     div.header-item
       a(href=`/`) home
@@ -8,4 +8,12 @@ mixin header()
       a(href=`/r/popular`) popular
     div.header-item
       a(href=`/subs`) subscriptions
+    if user
+      div.header-item
+        | #{user.username}
+        |&nbsp;
+        a(href='/logout') (logout)
+    else
+      div.header-item
+        a(href=`/login`) login
 

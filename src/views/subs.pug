@@ -4,7 +4,7 @@ include ../mixins/head
 
 doctype html
 html
-  +head()
+  +head("subscriptions")
   +subMgmt()
   script.
     function newSubItem(sub) {
@@ -26,7 +26,11 @@ html
     document.addEventListener('DOMContentLoaded', buildSubList);
   body
     main#content
-      +header()
+      +header(user)
       div.hero
         h1 subscriptions
-        div#subList
+        p
+          each s in subs 
+            a(href=`/r/${s.subreddit}`) 
+              | r/#{s.subreddit}
+            br

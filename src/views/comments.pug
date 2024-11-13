@@ -3,9 +3,11 @@ include ../mixins/header
 include ../mixins/head
 include ../utils
 
+- var post = data.post
+- var comments = data.comments
 doctype html
 html
-  +head()
+  +head(post.title)
   script.
     function toggleDetails(details_id) {
       var detailsElement = document.getElementById(details_id);
@@ -16,7 +18,7 @@ html
 
   body
     main#content
-      +header()
+      +header(user)
       div.hero
         h3.sub-title
           a(href=`/r/${post.subreddit}`) ← r/#{post.subreddit}
@@ -40,10 +42,10 @@ html
                 each item in post.gallery_data.items
                   - var url = `https://i.redd.it/${item.media_id}.jpg`
                   div.gallery-item
-                    a(href=`/media/${url}`)
-                      img(src=url loading="lazy")
                     div.gallery-item-idx
                       | #{`${++idx}/${total}`}
+                    a(href=`/media/${url}`)
+                      img(src=url loading="lazy")
         else if post.post_hint == "image" && post.thumbnail && post.thumbnail != "self" && post.thumbnail != "default"
           img(src=post.url).post-media
         else if post.post_hint == 'hosted:video'

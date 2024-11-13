@@ -9,55 +9,40 @@ html
   +head("home")
   +subMgmt()
   script(defer).
-    async function updateButton(sub) {
-      var b = document.getElementById("button-container");
-      b.innerHTML = '';
-
-      const button = document.createElement("button");
-
-      if (issub(sub)) {
-         button.innerText = "unsubscribe";
-         button.onclick = async () => await unsubscribe(sub);
-      } else {
-         button.innerText = "subscribe";
-         button.onclick = async () => await subscribe(sub);
-      }
-      b.appendChild(button);
-    }
-
     async function subscribe(sub) {
-      await postSubscription(sub, true);
-      updateButton(sub);
+      await doThing(sub, 'subscribe');
     }
 
     async function unsubscribe(sub) {
-      await postUnsubscription(sub);
-      updateButton(sub);
+      await doThing(sub, 'unsubscribe');
     }
 
-    async function postUnsubscription(sub) {
-      const response = await fetch('/unsubscribe', {
+    function getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(";").shift();
+    }
+
+    async function doThing(sub, thing) {
+      const jwtToken = getCookie("auth_token");
+      const response = await fetch(`/${thing}`, {
         method: 'POST',
         headers: {
+          'Authorization': `Bearer ${jwtToken}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ subreddit: sub }),
       });
 
-      if (!response.ok) {
-        console.error('Failed to update unsubscription');
+      let thinger = document.getElementById('thinger');
+      if (thing == 'subscribe') {
+        thinger.innerText = 'unsubscribe';
+      } else  {
+        thinger.innerText = 'subscribe';
       }
-    }
-      const response = await fetch('/subscribe', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ subreddit: sub, subscribe: subscribe }),
-      });
 
       if (!response.ok) {
-        console.error('Failed to update subscription');
+        console.error(`Failed to do ${thing}`);
       }
     }
 
@@ -68,7 +53,6 @@ html
       }
     }
 
-    document.addEventListener('DOMContentLoaded', () => updateButton("#{subreddit}"));
   body
     main#content
       +header(user)
@@ -82,6 +66,10 @@ html
                 | r/#{subreddit}
           if !isMulti
             div#button-container
+              if isSubbed
+               button(onclick=`unsubscribe('${subreddit}')`)#thinger unsubscribe
+              else
+               button(onclick=`subscribe('${subreddit}')`)#thinger subscribe
         if about
           p #{about.public_description}
         details

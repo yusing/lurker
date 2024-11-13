@@ -1,35 +1,13 @@
 const express = require("express");
+const rateLimit = require("express-rate-limit");
 const path = require("node:path");
 const geddit = require("./geddit.js");
-const { Database } = require("bun:sqlite");
-
-const db = new Database("readit.db");
-
-const createUsers = db.query(`
-  CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT UNIQUE,
-    password_hash TEXT
-  )
-`);
-
-createUsers.run();
-
-const createSubs = db.query(`
-  CREATE TABLE IF NOT EXISTS subscriptions (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER,
-    subreddit TEXT,
-    FOREIGN KEY(user_id) REFERENCES users(id),
-    UNIQUE(user_id, subreddit)
-  )
-`);
-
-createSubs.run();
-
-module.exports = { db };
-
+const cookieParser = require("cookie-parser");
 const app = express();
+const hasher = new Bun.CryptoHasher("sha256", "secret-key");
+const JWT_KEY = hasher.update(Math.random().toString()).digest("hex");
+
+module.exports = { JWT_KEY };
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
@@ -38,6 +16,16 @@ const routes = require("./routes/index");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
+app.use(cookieParser());
+app.use(
+	rateLimit({
+		windowMs: 15 * 60 * 1000,
+		max: 100,
+		message: "Too many requests from this IP, please try again later.",
+		standardHeaders: true,
+		legacyHeaders: false,
+	}),
+);
 app.use("/", routes);
 
 const port = process.env.READIT_PORT;

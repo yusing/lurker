@@ -18,11 +18,11 @@ class Geddit {
 			include_over_18: true,
 		};
 
-		subreddit = subreddit ? `/r/${subreddit}` : "";
+		const subredditStr = subreddit ? `/r/${subreddit}` : "";
 
 		return await fetch(
 			`${
-				this.host + subreddit
+				this.host + subredditStr
 			}/${sort}.json?${new URLSearchParams(Object.assign(params, options))}`,
 		)
 			.then((res) => res.json())
@@ -300,7 +300,7 @@ class Geddit {
 
 	async searchAll(query, subreddit = null, options = {}) {
 		options.q = query;
-		subreddit = subreddit ? `/r/${subreddit}` : "";
+		const subredditStr = subreddit ? `/r/${subreddit}` : "";
 
 		const params = {
 			limit: 25,
@@ -310,7 +310,7 @@ class Geddit {
 
 		return await fetch(
 			`${
-				this.host + subreddit
+				this.host + subredditStr
 			}/search.json?${new URLSearchParams(Object.assign(params, options))}`,
 		)
 			.then((res) => res.json())
