@@ -31,11 +31,23 @@ html
     }
 
     async function unsubscribe(sub) {
-      await postSubscription(sub, false);
+      await postUnsubscription(sub);
       updateButton(sub);
     }
 
-    async function postSubscription(sub, subscribe) {
+    async function postUnsubscription(sub) {
+      const response = await fetch('/unsubscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ subreddit: sub }),
+      });
+
+      if (!response.ok) {
+        console.error('Failed to update unsubscription');
+      }
+    }
       const response = await fetch('/subscribe', {
         method: 'POST',
         headers: {
