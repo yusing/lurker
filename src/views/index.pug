@@ -6,7 +6,7 @@ include ../utils
 - var subs = []
 doctype html
 html
-  +head()
+  +head("home")
   +subMgmt()
   script(defer).
     function updateButton(sub) {
@@ -35,7 +35,7 @@ html
     document.addEventListener('DOMContentLoaded', ()=>updateButton("#{subreddit}"));
   body
     main#content
-      +header()
+      +header(user)
       div.hero
         div.sub-title
           h1 
