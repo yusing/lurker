@@ -12,7 +12,12 @@ const G = new geddit.Geddit();
 
 // GET /
 router.get("/", authenticateToken, async (req, res) => {
-	res.render("home");
+	const subs = db
+		.query("SELECT * FROM subscriptions WHERE user_id = $id")
+		.all({ id: req.user.id });
+	const p = subs.map((s) => s.subreddit).join("+");
+	console.log(p);
+	res.redirect(`/r/${p}`);
 });
 
 // GET /r/:id
