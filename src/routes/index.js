@@ -223,10 +223,8 @@ router.post("/unsubscribe", authenticateToken, async (req, res) => {
 		db.query(
 			"DELETE FROM subscriptions WHERE user_id = $id AND subreddit = $subreddit",
 		).run({ id: user.id, subreddit });
-		console.log("done");
 		res.status(200).send("Unsubscribed successfully");
 	} else {
-		console.log("not");
 		res.status(400).send("Subscription not found");
 	}
 });
