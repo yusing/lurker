@@ -38,7 +38,7 @@
             cp -R ./node_modules/* $out/node_modules
             ls -la $out/node_modules
           '';
-          outputHash = "sha256-k77Ht47QBQUmoGp2zxBwVIjQ9fwnIGCqcqBLK6/d6jM=";
+          outputHash = "sha256-3hjIDUMEi259ylUL+W0FGqiuIl2uRecb9yWq05XbT+o=";
           outputHashAlgo = "sha256";
           outputHashMode = "recursive";
         };
@@ -52,8 +52,6 @@
 
           buildPhase = ''
             runHook preBuild
-
-
             runHook postBuild
           '';
 
