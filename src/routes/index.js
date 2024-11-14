@@ -150,12 +150,12 @@ router.post("/register", async (req, res) => {
 				hashedPassword,
 			});
 		const id = insertedRecord.lastInsertRowid;
-		const token = jwt.sign({ username, id }, JWT_KEY, { expiresIn: "100h" });
+		const token = jwt.sign({ username, id }, JWT_KEY, { expiresIn: "5d" });
 		res
 			.status(200)
 			.cookie("auth_token", token, {
 				httpOnly: true,
-				maxAge: 2 * 24 * 60 * 60 * 1000,
+				maxAge: 5 * 24 * 60 * 60 * 1000,
 			})
 			.redirect("/");
 	} catch (err) {
@@ -177,12 +177,12 @@ router.post("/login", async (req, res) => {
 		.get({ username });
 	if (user && (await Bun.password.verify(password, user.password_hash))) {
 		const token = jwt.sign({ username, id: user.id }, JWT_KEY, {
-			expiresIn: "1h",
+			expiresIn: "5d",
 		});
 		res
 			.cookie("auth_token", token, {
 				httpOnly: true,
-				maxAge: 2 * 24 * 60 * 60 * 1000,
+				maxAge: 5 * 24 * 60 * 60 * 1000,
 			})
 			.redirect(req.query.redirect || "/");
 	} else {
