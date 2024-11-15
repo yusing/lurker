@@ -70,8 +70,13 @@ html
                button(onclick=`unsubscribe('${subreddit}')`)#thinger unsubscribe
               else
                button(onclick=`subscribe('${subreddit}')`)#thinger subscribe
-        if about
+        if about && !isMulti
           p #{about.public_description}
+        else 
+          p 
+            | consider donating to&nbsp;
+            a(href="https://donate.stripe.com/dR62bTaZH1295Da4gg") oppiliappan
+            |, author of readit
         details
           summary.sorting sorting by #{query.sort + (query.t?' '+query.t:'')}
           div.sort-opts

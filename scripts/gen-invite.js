@@ -15,7 +15,7 @@ db.run(`
 
 function generateInviteToken() {
 	const hasher = new Bun.CryptoHasher("sha256", "super-secret-invite-key");
-	return hasher.update(Math.random().toString()).digest("hex");
+	return hasher.update(Math.random().toString()).digest("hex").slice(0, 10);
 }
 
 function createInvite() {
