@@ -13,7 +13,7 @@
       import nixpkgs {
         inherit system;
         overlays = [
-            self.overlays.default
+          self.overlays.default
         ];
       });
   in {
@@ -42,6 +42,32 @@
           outputHashAlgo = "sha256";
           outputHashMode = "recursive";
         };
+      readit-gen-invite = with final;
+        stdenv.mkDerivation {
+          pname = "readit-gen-invite";
+          version = "0.0.1";
+          src = ./scripts;
+          nativeBuildInputs = [makeBinaryWrapper];
+          buildInputs = [bun];
+
+          buildPhase = ''
+            runHook preBuild
+            runHook postBuild
+          '';
+
+          dontFixup = true;
+
+          installPhase = ''
+            runHook preInstall
+
+            mkdir -p $out/bin
+            cp -R ./* $out
+
+            makeBinaryWrapper ${bun}/bin/bun $out/bin/$pname \
+            --prefix PATH : ${lib.makeBinPath [bun]} \
+            --add-flags "run --prefer-offline --no-install $out/gen-invite.js"
+          '';
+        };
       readit = with final;
         stdenv.mkDerivation {
           pname = "readit";
@@ -65,10 +91,6 @@
             ln -s ${node_modules}/node_modules $out
             cp -R ./* $out
 
-            # bun is referenced naked in the package.json generated script
-            # makeBinaryWrapper ${bun}/bin/bun $out/bin/$pname \
-            #   --add-flags "run --prefer-offline --no-install $out/app.js"
-
             makeBinaryWrapper ${bun}/bin/bun $out/bin/$pname \
             --prefix PATH : ${lib.makeBinPath [bun]} \
             --add-flags "run --prefer-offline --no-install $out/src/index.js"
@@ -88,7 +110,7 @@
       });
 
     packages = forAllSystems (system: {
-      inherit (nixpkgsFor."${system}") readit node_modules;
+      inherit (nixpkgsFor."${system}") readit readit-gen-invite node_modules;
     });
 
     defaultPackage = forAllSystems (system: nixpkgsFor."${system}".readit);
