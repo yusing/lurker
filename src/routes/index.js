@@ -20,7 +20,6 @@ router.get("/", authenticateToken, async (req, res) => {
 		res.redirect("/r/all");
 	} else {
 		const p = subs.map((s) => s.subreddit).join("+");
-		console.log(p);
 		res.redirect(`/r/${p}`);
 	}
 });
@@ -143,7 +142,9 @@ router.post("/register", validateInviteToken, async (req, res) => {
 	try {
 		const hashedPassword = await Bun.password.hash(password);
 
-		db.query("UPDATE invites SET usedAt = CURRENT_TIMESTAMP WHERE id = $id", {
+		db.query(
+			"UPDATE invites SET usedAt = CURRENT_TIMESTAMP WHERE id = $id",
+		).run({
 			id: req.invite.id,
 		});
 
@@ -165,7 +166,6 @@ router.post("/register", validateInviteToken, async (req, res) => {
 			})
 			.redirect("/");
 	} catch (err) {
-		console.log(err);
 		return res.render("register", {
 			message: "error registering user, try again later",
 		});

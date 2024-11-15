@@ -499,6 +499,7 @@ form input[type="submit"]:hover {
 }
 
 .register-error-message {
+  margin-bottom: 1rem;
   flex-flow: row wrap;
   color: var(--error-text-color);
 }

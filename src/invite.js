@@ -11,7 +11,7 @@ const validateInviteToken = async (req, res, next) => {
 	}
 
 	const invite = db
-		.query("SELECT * FROM invites WHERE token = $token AND usedAt IS null")
+		.query("SELECT * FROM invites WHERE token = $token")
 		.get({ token });
 
 	if (!invite) {
