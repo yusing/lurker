@@ -1,5 +1,6 @@
 include ../mixins/head
 
+- var action = "/register" + (token?`?token=${token}`:'')
 doctype html
 html
   +head("register")
@@ -9,7 +10,7 @@ html
       if message
         div.register-error-message
           | #{message}
-      form(action="/register" method="post")
+      form(action=`${action}` method="post")
         div.input-text
           label(for="username") username
           input(type="text" name="username" required)
@@ -20,7 +21,10 @@ html
           label(for="confirm_password") confirm password
           input(type="password" name="confirm_password" required)
         div.submit-button
-          button(type="submit") register
+          if isDisabled
+            button(type="submit" disabled) register'nt :(
+          else
+            button(type="submit") register
         div
           p 
             | already have an account?&nbsp;

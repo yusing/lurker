@@ -6,6 +6,7 @@ const geddit = require("../geddit.js");
 const { JWT_KEY } = require("../");
 const { db } = require("../db");
 const { authenticateToken } = require("../auth");
+const { validateInviteToken } = require("../invite");
 
 const router = express.Router();
 const G = new geddit.Geddit();
@@ -113,11 +114,11 @@ router.get("/media/*", authenticateToken, async (req, res) => {
 	res.render("media", { kind, url });
 });
 
-router.get("/register", async (req, res) => {
-	res.render("register");
+router.get("/register", validateInviteToken, async (req, res) => {
+	res.render("register", { isDisabled: false, token: req.query.token });
 });
 
-router.post("/register", async (req, res) => {
+router.post("/register", validateInviteToken, async (req, res) => {
 	const { username, password, confirm_password } = req.body;
 
 	if (!username || !password || !confirm_password) {
@@ -141,6 +142,11 @@ router.post("/register", async (req, res) => {
 
 	try {
 		const hashedPassword = await Bun.password.hash(password);
+
+		db.query("UPDATE invites SET usedAt = CURRENT_TIMESTAMP WHERE id = $id", {
+			id: req.invite.id,
+		});
+
 		const insertedRecord = db
 			.query(
 				"INSERT INTO users (username, password_hash) VALUES ($username, $hashedPassword)",
@@ -159,6 +165,7 @@ router.post("/register", async (req, res) => {
 			})
 			.redirect("/");
 	} catch (err) {
+		console.log(err);
 		return res.render("register", {
 			message: "error registering user, try again later",
 		});
