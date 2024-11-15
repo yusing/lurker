@@ -7,12 +7,6 @@ const db = new Database(dbPath, {
 	strict: true,
 });
 
-if (command === "create") {
-	createInvite();
-} else {
-	console.log("requires an arg");
-}
-
 db.run(`
 	CREATE TABLE IF NOT EXISTS invites (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -21,6 +15,12 @@ db.run(`
 		usedAt TIMESTAMP
 	)
 `);
+
+if (command === "create") {
+	createInvite();
+} else {
+	console.log("requires an arg");
+}
 
 function generateInviteToken() {
 	const hasher = new Bun.CryptoHasher("sha256", "super-secret-invite-key");
