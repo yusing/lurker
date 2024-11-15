@@ -1,8 +1,17 @@
 import { Database } from "bun:sqlite";
 
-const db = new Database("readit.db", {
+const command = process.argv[2];
+
+const dbPath = process.argv[3] ? process.argv[3] : "readit.db";
+const db = new Database(dbPath, {
 	strict: true,
 });
+
+if (command === "create") {
+	createInvite();
+} else {
+	console.log("requires an arg");
+}
 
 db.run(`
 	CREATE TABLE IF NOT EXISTS invites (
@@ -22,13 +31,4 @@ function createInvite() {
 	const token = generateInviteToken();
 	db.run("INSERT INTO invites (token) VALUES ($token)", { token });
 	console.log(`Invite token created: ${token}`);
-}
-
-const command = process.argv[2];
-const arg = process.argv[3];
-
-if (command === "create") {
-	createInvite();
-} else {
-	console.log("requires an arg");
 }
