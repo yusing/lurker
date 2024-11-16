@@ -517,8 +517,28 @@ form input[type="submit"]:hover {
   color: var(--text-color-muted);
 }
 
-.register-error-message {
+.register-error-message,
+.dashboard-error-message {
   margin-bottom: 1rem;
   flex-flow: row wrap;
   color: var(--error-text-color);
+}
+
+.invite-table {
+  width: 100%;
+  padding: 10px 0;
+}
+
+.invite-table th,
+.invite-table td
+{
+  padding: 5px 0;
+}
+
+.invite-table-header {
+  text-align: left;
+}
+
+.invite-link {
+  font-family: monospace;
 }

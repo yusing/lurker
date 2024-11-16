@@ -1,13 +1,10 @@
 include ../mixins/post
-include ../mixins/sub
 include ../mixins/header
 include ../mixins/head
 include ../utils
-- var subs = []
 doctype html
 html
   +head("home")
-  +subMgmt()
   script(defer).
     async function subscribe(sub) {
       await doThing(sub, 'subscribe');

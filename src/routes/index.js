@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const geddit = require("../geddit.js");
 const { JWT_KEY } = require("../");
 const { db } = require("../db");
-const { authenticateToken } = require("../auth");
+const { authenticateToken, authenticateAdmin } = require("../auth");
 const { validateInviteToken } = require("../invite");
 
 const router = express.Router();
@@ -101,6 +101,64 @@ router.get("/subs", authenticateToken, async (req, res) => {
 		.query("SELECT * FROM subscriptions WHERE user_id = $id")
 		.all({ id: req.user.id });
 	res.render("subs", { subs, user: req.user });
+});
+
+// GET /dashboard
+router.get("/dashboard", authenticateToken, async (req, res) => {
+	let invites = null;
+	const isAdmin = db
+		.query("SELECT isAdmin FROM users WHERE id = $id and isAdmin = 1")
+		.get({
+			id: req.user.id,
+		});
+	if (isAdmin) {
+		invites = db
+			.query("SELECT * FROM invites")
+			.all()
+			.map((inv) => ({
+				...inv,
+				createdAt: Date.parse(inv.createdAt),
+				usedAt: Date.parse(inv.usedAt),
+			}));
+	}
+	res.render("dashboard", { invites, isAdmin, user: req.user });
+});
+
+router.get("/create-invite", authenticateAdmin, async (req, res) => {
+	function generateInviteToken() {
+		const hasher = new Bun.CryptoHasher("sha256", "super-secret-invite-key");
+		return hasher.update(Math.random().toString()).digest("hex").slice(0, 10);
+	}
+
+	function createInvite() {
+		const token = generateInviteToken();
+		db.run("INSERT INTO invites (token) VALUES ($token)", { token });
+	}
+
+	try {
+		db.run(`
+		  CREATE TABLE IF NOT EXISTS invites (
+		  	id INTEGER PRIMARY KEY AUTOINCREMENT,
+		  	token TEXT NOT NULL,
+		  	createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+		  	usedAt TIMESTAMP
+		  )
+	  `);
+
+		createInvite();
+		return res.redirect("/dashboard");
+	} catch (err) {
+		return res.send("failed to create invite");
+	}
+});
+
+router.get("/delete-invite/:id", authenticateToken, async (req, res) => {
+	try {
+		db.run("DELETE FROM invites WHERE id = $id", { id: req.params.id });
+		return res.redirect("/dashboard");
+	} catch (err) {
+		return res.send("failed to delete invite");
+	}
 });
 
 // GET /media

@@ -1,29 +1,9 @@
-include ../mixins/sub
 include ../mixins/header
 include ../mixins/head
 
 doctype html
 html
   +head("subscriptions")
-  +subMgmt()
-  script.
-    function newSubItem(sub) {
-      const p = document.createElement("p");
-      const a = document.createElement("a");
-      a.href = `/r/${sub}`;
-      a.innerText = `r/${sub}`;
-      p.appendChild(a);
-      return p;
-    }
-
-    function buildSubList() {
-      var subList = document.getElementById('subList');
-      getSubs().forEach((sub)=>{
-        subList.appendChild(newSubItem(sub));
-      });
-    }
-
-    document.addEventListener('DOMContentLoaded', buildSubList);
   body
     main#content
       +header(user)

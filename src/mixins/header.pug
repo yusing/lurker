@@ -10,7 +10,7 @@ mixin header(user)
       a(href=`/subs`) subscriptions
     if user
       div.header-item
-        | #{user.username}
+        a(href='/dashboard') #{user.username}
         |&nbsp;
         a(href='/logout') (logout)
     else
