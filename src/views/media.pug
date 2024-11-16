@@ -1,4 +1,10 @@
-if kind == 'img'
-  img(src=url)
-else
-  video(src=url controls)
+include ../mixins/head
+doctype html
+html
+  +head("home")
+  body
+    div.media-maximized-container
+      if kind == 'img'
+        img(src=url).media-maximized
+      else
+        video(src=url controls).media-maximized
