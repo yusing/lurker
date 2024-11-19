@@ -126,7 +126,7 @@ router.get("/dashboard", authenticateToken, async (req, res) => {
 
 router.get("/create-invite", authenticateAdmin, async (req, res) => {
 	function generateInviteToken() {
-		const hasher = new Bun.CryptoHasher("sha256", "super-secret-invite-key");
+		const hasher = new Bun.CryptoHasher("sha256");
 		return hasher.update(Math.random().toString()).digest("hex").slice(0, 10);
 	}
 
