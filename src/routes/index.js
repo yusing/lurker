@@ -148,6 +148,7 @@ router.get("/create-invite", authenticateAdmin, async (req, res) => {
 		createInvite();
 		return res.redirect("/dashboard");
 	} catch (err) {
+		console.log(err);
 		return res.send("failed to create invite");
 	}
 });
