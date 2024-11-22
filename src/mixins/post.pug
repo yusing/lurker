@@ -25,7 +25,8 @@ mixin post(p)
           - var item = postGalleryItems(p)[0]
           img(src=item.url onclick=`toggleDetails('${p.id}')`) 
         else if isPostImage(p)
-          img(src=p.thumbnail onclick=`toggleDetails('${p.id}')`) 
+          - var url = postThumbnail(p)
+          img(src=url onclick=`toggleDetails('${p.id}')`) 
         else if isPostVideo(p)
           - var url = p.secure_media.reddit_video.scrubber_media_url
           video(src=url data-dashjs-player width='100px' height='100px' onclick=`toggleDetails('${p.id}')`)

@@ -7,6 +7,14 @@
     return (p.post_hint == "image" && p.thumbnail && p.thumbnail != "self" && p.thumbnail != "default");
   }
 -
+  function postThumbnail(p) {
+    if (p.thumbnail == "image") {
+        return p.url
+    } else {
+        return p.thumbnail;
+    }
+  }
+-
   function isPostVideo(p) {
     return (p.post_hint == "hosted:video");
   }
