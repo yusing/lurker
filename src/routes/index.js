@@ -136,15 +136,6 @@ router.get("/create-invite", authenticateAdmin, async (req, res) => {
 	}
 
 	try {
-		db.run(`
-		  CREATE TABLE IF NOT EXISTS invites (
-		  	id INTEGER PRIMARY KEY AUTOINCREMENT,
-		  	token TEXT NOT NULL,
-		  	createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-		  	usedAt TIMESTAMP
-		  )
-	  `);
-
 		createInvite();
 		return res.redirect("/dashboard");
 	} catch (err) {
@@ -201,19 +192,22 @@ router.post("/register", validateInviteToken, async (req, res) => {
 	try {
 		const hashedPassword = await Bun.password.hash(password);
 
-		db.query(
-			"UPDATE invites SET usedAt = CURRENT_TIMESTAMP WHERE id = $id",
-		).run({
-			id: req.invite.id,
-		});
+		if (!req.isFirstUser) {
+			db.query(
+				"UPDATE invites SET usedAt = CURRENT_TIMESTAMP WHERE id = $id",
+			).run({
+				id: req.invite.id,
+			});
+		}
 
 		const insertedRecord = db
 			.query(
-				"INSERT INTO users (username, password_hash) VALUES ($username, $hashedPassword)",
+				"INSERT INTO users (username, password_hash, isAdmin) VALUES ($username, $hashedPassword, $isAdmin)",
 			)
 			.run({
 				username,
 				hashedPassword,
+				isAdmin: req.isFirstUser ? 1 : 0,
 			});
 		const id = insertedRecord.lastInsertRowid;
 		const token = jwt.sign({ username, id }, JWT_KEY, { expiresIn: "5d" });

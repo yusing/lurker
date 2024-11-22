@@ -1,0 +1,39 @@
+-
+  function isPostGallery(p) {
+    return (p.is_gallery && p.is_gallery == true);
+  }
+-
+  function isPostImage(p) {
+    return (p.post_hint == "image" && p.thumbnail && p.thumbnail != "self" && p.thumbnail != "default");
+  }
+-
+  function isPostVideo(p) {
+    return (p.post_hint == "hosted:video");
+  }
+-
+  function isPostLink(p) {
+    return (p.post_hint == "link");
+  }
+-
+  function imgExt(p, id) {
+    var metadata = p.media_metadata;
+    if (metadata[id].status == 'valid') {
+      return stripPrefix(metadata[id].m, "image/");
+    } else {
+      // dosent matter
+      return 'jpg';
+    }
+  }
+-
+  function postGalleryItems(p) {
+    if (p.gallery_data && p.gallery_data.items) {
+      return p.gallery_data.items.map((item, idx) => ({
+        id: item.media_id,
+        url: `https://i.redd.it/${item.media_id}.${imgExt(p, item.media_id)}`,
+        total: p.gallery_data.items.length,
+        idx: idx+1,
+      }));
+    } else {
+      return null;
+    }
+  }

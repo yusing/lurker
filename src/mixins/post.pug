@@ -1,4 +1,5 @@
 include ../utils
+include postUtils
 mixin post(p)
   article.post
     div.post-container
@@ -20,62 +21,42 @@ mixin post(p)
             | &nbsp;·&nbsp;
             a(href=`/comments/${p.id}`) #{fmtnum (p.num_comments)} ↩
       div.media-preview
-        if p.is_gallery && p.is_gallery == true
-          if p.gallery_data
-            if p.gallery_data.items
-              - var item = p.gallery_data.items[0]
-              - var url = `https://i.redd.it/${item.media_id}.jpg`
-              img(src=url onclick=`toggleDetails('${p.id}')`) 
-        else if p.post_hint == "image" && p.thumbnail && p.thumbnail != "self" && p.thumbnail != "default"
+        if isPostGallery(p)
+          - var item = postGalleryItems(p)[0]
+          img(src=item.url onclick=`toggleDetails('${p.id}')`) 
+        else if isPostImage(p)
           img(src=p.thumbnail onclick=`toggleDetails('${p.id}')`) 
-        else if p.post_hint == "hosted:video"
+        else if isPostVideo(p)
           - var url = p.secure_media.reddit_video.scrubber_media_url
           video(src=url data-dashjs-player width='100px' height='100px' onclick=`toggleDetails('${p.id}')`)
-        else if p.post_hint == "link"
+        else if isPostLink(p)
           a(href=p.url)
             | ↗
 
-    if p.is_gallery && p.is_gallery == true
-      if p.gallery_data
-        if p.gallery_data.items
-          details(id=`${p.id}`)
-            summary.expand-post expand gallery
-            div.gallery
-              - var total = p.gallery_data.items.length
-              - var idx = 0
-              - var metadata = p.media_metadata
-              - 
-                var img_ext = (id) => {
-                  if (metadata[id].status == 'valid') {
-                    return stripPrefix(metadata[id].m, "image/");
-                  } else {
-                    // dosent matter
-                    return 'jpg';
-                  }
-                }
-              each item in p.gallery_data.items
-                - var id = item.media_id
-                - var ext = img_ext(item.media_id)
-                - var url = `https://i.redd.it/${id}.${ext}`
-                div.gallery-item
-                  a(href=`/media/${url}`)
-                    img(src=url loading="lazy")
-                  div.gallery-item-idx
-                    | #{`${++idx}/${total}`}
-            button(onclick=`toggleDetails('${p.id}')`) close
-    if p.post_hint == "image" && p.thumbnail && p.thumbnail != "self" && p.thumbnail != "default"
+    if isPostGallery(p)
+      details(id=`${p.id}`)
+        summary.expand-post expand gallery
+        div.gallery
+          each item in postGalleryItems(p)
+            div.gallery-item
+              div.gallery-item-idx
+                | #{`${item.idx}/${item.total}`}
+              a(href=`/media/${item.url}`)
+                img(src=item.url loading="lazy")
+        button(onclick=`toggleDetails('${p.id}')`) close
+    else if isPostImage(p)
       details(id=`${p.id}`)
         summary.expand-post expand image
         a(href=`/media/${p.url}`)
           img(src=p.url loading="lazy").post-media
         button(onclick=`toggleDetails('${p.id}')`) close
-    else if p.post_hint == "hosted:video"
+    else if isPostVideo(p)
       details(id=`${p.id}`)
         summary.expand-post expand video
         - var url = p.secure_media.reddit_video.dash_url
         video(src=url controls data-dashjs-player loading="lazy").post-media
         button(onclick=`toggleDetails('${p.id}')`) close
-    else if p.post_hint == "link"
+    else if isPostLink(p)
       details(id=`${p.id}`)
         summary.expand-post expand link
         a(href=`${p.url}`)

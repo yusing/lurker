@@ -15,16 +15,16 @@ function runMigration(name, migrationFn) {
 }
 
 // users table
-db.query(`
+db.run(`
   CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT UNIQUE,
     password_hash TEXT
   )
-`).run();
+`);
 
 // subs table
-db.query(`
+db.run(`
   CREATE TABLE IF NOT EXISTS subscriptions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER,
@@ -32,7 +32,16 @@ db.query(`
     FOREIGN KEY(user_id) REFERENCES users(id),
     UNIQUE(user_id, subreddit)
   )
-`).run();
+`);
+
+db.run(`
+  CREATE TABLE IF NOT EXISTS invites (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    token TEXT NOT NULL,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    usedAt TIMESTAMP
+  )
+`);
 
 // migrations table
 db.query(`

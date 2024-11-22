@@ -1,6 +1,14 @@
 const { db } = require("./db");
 
 const validateInviteToken = async (req, res, next) => {
+	const isFirstUser = db.query("SELECT 1 FROM users LIMIT 1").get() === null;
+
+	if (isFirstUser) {
+		req.isFirstUser = true;
+		next();
+		return;
+	}
+
 	const token = req.query.token;
 
 	if (!token) {

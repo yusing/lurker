@@ -42,32 +42,6 @@
           outputHashAlgo = "sha256";
           outputHashMode = "recursive";
         };
-      readit-gen-invite = with final;
-        stdenv.mkDerivation {
-          pname = "readit-gen-invite";
-          version = "0.0.1";
-          src = ./scripts;
-          nativeBuildInputs = [makeBinaryWrapper];
-          buildInputs = [bun];
-
-          buildPhase = ''
-            runHook preBuild
-            runHook postBuild
-          '';
-
-          dontFixup = true;
-
-          installPhase = ''
-            runHook preInstall
-
-            mkdir -p $out/bin
-            cp -R ./* $out
-
-            makeBinaryWrapper ${bun}/bin/bun $out/bin/$pname \
-            --prefix PATH : ${lib.makeBinPath [bun]} \
-            --add-flags "run --prefer-offline --no-install $out/gen-invite.js"
-          '';
-        };
       readit = with final;
         stdenv.mkDerivation {
           pname = "readit";
@@ -110,7 +84,7 @@
       });
 
     packages = forAllSystems (system: {
-      inherit (nixpkgsFor."${system}") readit readit-gen-invite node_modules;
+      inherit (nixpkgsFor."${system}") readit node_modules;
     });
 
     defaultPackage = forAllSystems (system: nixpkgsFor."${system}".readit);
