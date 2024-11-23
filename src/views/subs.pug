@@ -4,6 +4,7 @@ include ../mixins/head
 doctype html
 html
   +head("subscriptions")
+  include ../mixins/subUtils
   body
     main#content
       +header(user)
@@ -11,6 +12,13 @@ html
         h1 subscriptions
         p
           each s in subs 
-            a(href=`/r/${s.subreddit}`) 
-              | r/#{s.subreddit}
-            br
+            - var subreddit = s.subreddit
+            div.sub-title
+              h4
+                a(href=`/r/${subreddit}`) 
+                  | r/#{subreddit}
+              div#button-container
+                if isSubbed
+                  button(onclick=`toggleSub('${subreddit}')` id=`thinger_${subreddit}`) unsubscribe
+                else
+                  button(onclick=`toggleSub('${subreddit}')` id=`thinger_${subreddit}`) subscribe

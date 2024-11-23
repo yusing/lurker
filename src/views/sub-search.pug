@@ -14,8 +14,8 @@ html
           input(type="text" name="q" placeholder="search subreddits (add +nsfw to include over-18 results)" required).search-input
           button(type="submit").search-button go
         if message
-        div.search-message
-          | #{message}
+          div.search-message
+            i #{message}
         if items
           div.search-results
             each i in items

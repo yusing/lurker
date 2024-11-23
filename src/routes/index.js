@@ -106,7 +106,7 @@ router.get("/subs", authenticateToken, async (req, res) => {
 // GET /search-subreddits
 router.get("/search", authenticateToken, async (req, res) => {
 	if (!req.query || !req.query.q) {
-		res.render("sub-search", {});
+		res.render("sub-search", { user: req.user });
 	} else {
 		const { q, options } = req.query.q.split(/\s+/).reduce(
 			(acc, word) => {
@@ -131,7 +131,7 @@ router.get("/search", authenticateToken, async (req, res) => {
 			items.length === 0
 				? "no results found"
 				: `showing ${items.length} results`;
-		res.render("sub-search", { items, subs, after, message });
+		res.render("sub-search", { items, subs, after, message, user: req.user });
 	}
 });
 
