@@ -5,9 +5,9 @@ mixin header(user)
     div.header-item
       a(href=`/r/all`) all
     div.header-item
-      a(href=`/r/popular`) popular
+      a(href=`/search`) search
     div.header-item
-      a(href=`/subs`) subscriptions
+      a(href=`/subs`) subs
     if user
       div.header-item
         a(href='/dashboard') #{user.username}

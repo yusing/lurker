@@ -5,50 +5,7 @@ include ../utils
 doctype html
 html
   +head("home")
-  script(defer).
-    async function subscribe(sub) {
-      await doThing(sub, 'subscribe');
-    }
-
-    async function unsubscribe(sub) {
-      await doThing(sub, 'unsubscribe');
-    }
-
-    function getCookie(name) {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop().split(";").shift();
-    }
-
-    async function doThing(sub, thing) {
-      const jwtToken = getCookie("auth_token");
-      const response = await fetch(`/${thing}`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${jwtToken}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ subreddit: sub }),
-      });
-
-      let thinger = document.getElementById('thinger');
-      if (thing == 'subscribe') {
-        thinger.innerText = 'unsubscribe';
-      } else  {
-        thinger.innerText = 'subscribe';
-      }
-
-      if (!response.ok) {
-        console.error(`Failed to do ${thing}`);
-      }
-    }
-
-    function toggleDetails(details_id) {
-      var detailsElement = document.getElementById(details_id);
-      if (detailsElement) {
-        detailsElement.open = !detailsElement.open;
-      }
-    }
+  include ../mixins/subUtils
 
   body
     main#content
@@ -64,9 +21,9 @@ html
           if !isMulti
             div#button-container
               if isSubbed
-               button(onclick=`unsubscribe('${subreddit}')`)#thinger unsubscribe
+                button(onclick=`toggleSub('${subreddit}')` id=`thinger_${subreddit}`) unsubscribe
               else
-               button(onclick=`subscribe('${subreddit}')`)#thinger subscribe
+                button(onclick=`toggleSub('${subreddit}')` id=`thinger_${subreddit}`) subscribe
         if about && !isMulti
           p #{about.public_description}
         else 

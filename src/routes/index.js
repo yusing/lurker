@@ -103,6 +103,38 @@ router.get("/subs", authenticateToken, async (req, res) => {
 	res.render("subs", { subs, user: req.user });
 });
 
+// GET /search-subreddits
+router.get("/search", authenticateToken, async (req, res) => {
+	if (!req.query || !req.query.q) {
+		res.render("sub-search", {});
+	} else {
+		const { q, options } = req.query.q.split(/\s+/).reduce(
+			(acc, word) => {
+				if (word.startsWith("+")) {
+					acc.options.push(word.slice(1));
+				} else {
+					acc.q += `${word} `;
+				}
+				return acc;
+			},
+			{ options: [], q: "" },
+		);
+
+		const { items, after } = await G.searchSubreddits(q, {
+			include_over_18: options.includes("nsfw"),
+		});
+		const subs = db
+			.query("SELECT subreddit FROM subscriptions WHERE user_id = $id")
+			.all({ id: req.user.id })
+			.map((res) => res.subreddit);
+		const message =
+			items.length === 0
+				? "no results found"
+				: `showing ${items.length} results`;
+		res.render("sub-search", { items, subs, after, message });
+	}
+});
+
 // GET /dashboard
 router.get("/dashboard", authenticateToken, async (req, res) => {
 	let invites = null;

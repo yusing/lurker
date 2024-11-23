@@ -263,7 +263,7 @@ class Geddit {
 
 		const params = {
 			limit: 25,
-			include_over_18: true,
+			include_over_18: false,
 		};
 
 		return await fetch(

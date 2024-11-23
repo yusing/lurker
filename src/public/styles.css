@@ -542,3 +542,26 @@ form input[type="submit"]:hover {
 .invite-link {
   font-family: monospace;
 }
+
+.search-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 100%;
+  gap: 10px;
+}
+
+.search-input {
+  flex: 9;
+}
+
+.search-button {
+  flex: 1;
+  padding: 10px;
+}
+
+.search-results {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
