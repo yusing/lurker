@@ -13,7 +13,7 @@ mixin post(p)
             | #{fmtnum(p.ups)} ↑ 
             span.post-author
               | &nbsp;·&nbsp;
-              by u/#{p.author} 
+              | u/#{p.author} 
             | &nbsp;·&nbsp;
             | #{timeDifference(Date.now(), p.created * 1000)}
             | &nbsp;·&nbsp;

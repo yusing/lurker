@@ -1,9 +1,15 @@
 include ../utils
 
-mixin infoContainer(data)
+mixin infoContainer(data, next_id, prev_id)
   div.comment-info-container
     | #{fmtnum(data.ups)} ↑
-    | &nbsp;·&nbsp;
+    | ·&nbsp;
+    if next_id
+      a(href=`#${next_id}`).nav-link next
+      | &nbsp;·&nbsp;
+    if prev_id
+      a(href=`#${prev_id}`).nav-link prev
+      | &nbsp;·&nbsp;
     span(class=`${data.is_submitter ? 'op' : ''}`)
       | u/#{data.author} #{data.is_submitter ? '(op)' : ''}
     | &nbsp;·&nbsp;
@@ -17,7 +23,7 @@ mixin infoContainer(data)
     return data.replies && data.replies.data && data.replies.data.children && data.replies.data.children.length > 0;
   }
 
-mixin comment(com, isfirst, parent_id)
+mixin comment(com, isfirst, parent_id, next_id, prev_id)
   - var data = com.data
   - var hasReplyData = hasReplies(data)
 
@@ -29,10 +35,17 @@ mixin comment(com, isfirst, parent_id)
     div(class=`comment ${isfirst ? 'first' : ''}`)
       details(id=`${data.id}` open="")
         summary.expand-comments
-          +infoContainer(data)
+          +infoContainer(data, next_id, prev_id)
         div.comment-body
           != data.body_html
         if hasReplyData
           div.replies
-            each reply in data.replies.data.children
-              +comment(reply, false, parent_id)
+            - var total = data.replies.data.children.length
+            each reply, index in data.replies.data.children
+              - var next_idx = index + 1
+              - var prev_idx = index - 1
+              - var next_com = next_idx < total ? data.replies.data.children[next_idx] : null
+              - var prev_com = prev_idx >= 0 ? data.replies.data.children[prev_idx] : null
+              - var next_id = next_com ? next_com.data.id : null
+              - var prev_id = prev_com ? prev_com.data.id : null
+              +comment(reply, false, parent_id, next_id, prev_id)

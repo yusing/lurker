@@ -59,5 +59,12 @@ html
         hr
 
       div.comments-container
-        each child in comments
-          +comment(child, true, post.id)
+        - var total = comments.length
+        each child, index in comments
+          - var next_idx = index + 1
+          - var prev_idx = index - 1
+          - var next_com = next_idx < total ? comments[next_idx] : null
+          - var prev_com = prev_idx >= 0 ? comments[prev_idx] : null
+          - var next_id = next_com ? next_com.data.id : null
+          - var prev_id = prev_com ? prev_com.data.id : null
+          +comment(child, true, post.id, next_id, prev_id)

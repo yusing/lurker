@@ -16,6 +16,12 @@ html
           div
             p nothing to see here, this thread was shadow-banned?
         else
-          each comment in comments
-            +comment(comment, true, parent_id)
+          each comment, index in comments
+            - var next_idx = index + 1
+            - var prev_idx = index - 1
+            - var next_com = next_idx < total ? comments[next_idx] : null
+            - var prev_com = prev_idx >= 0 ? comments[prev_idx] : null
+            - var next_id = next_com ? next_com.data.id : null
+            - var prev_id = prev_com ? prev_com.data.id : null
+            +comment(comment, true, parent_id, next_idx, prev_idx)
 

@@ -33,6 +33,10 @@
   :root { font-family: InterVariable, sans-serif; }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   overflow-x: hidden;
   background-color: var(--bg-color);
@@ -50,7 +54,8 @@ main {
 .info-container a,
 .comment-info-container a,
 .sort-opts a,
-.more a {
+.more a
+{
   text-decoration: none;
 }
 
@@ -564,4 +569,8 @@ form input[type="submit"]:hover {
 
 .about {
   padding-bottom: 20px;
+}
+
+a.nav-link {
+  color: var(--text-color-muted);
 }
