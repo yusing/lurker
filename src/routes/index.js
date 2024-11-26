@@ -131,7 +131,14 @@ router.get("/search", authenticateToken, async (req, res) => {
 			items.length === 0
 				? "no results found"
 				: `showing ${items.length} results`;
-		res.render("sub-search", { items, subs, after, message, user: req.user });
+		res.render("sub-search", {
+			items,
+			subs,
+			after,
+			message,
+			user: req.user,
+			original_query: req.query.q,
+		});
 	}
 });
 

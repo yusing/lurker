@@ -25,9 +25,9 @@ html
               else
                 button(onclick=`toggleSub('${subreddit}')` id=`thinger_${subreddit}`) subscribe
         if about && !isMulti
-          p #{about.public_description}
+          div.about #{about.public_description}
         else 
-          p 
+          div.about 
             | consider donating to&nbsp;
             a(href="https://donate.stripe.com/dR62bTaZH1295Da4gg") oppiliappan
             |, author of readit

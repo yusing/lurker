@@ -43,7 +43,8 @@ html
                 a(href=`/media/${item.url}`)
                   img(src=item.url loading="lazy")
         else if isPostImage(post)
-          img(src=post.url).post-media
+          a(href=`/media/${post.url}`)
+            img(src=post.url).post-media
         else if isPostVideo(post)
           - var url = post.secure_media.reddit_video.dash_url
           video(controls data-dashjs-player src=`${url}`).post-media

@@ -158,14 +158,10 @@ summary::before {
 .info-item, .header-item, .footer-item {
   margin-right: 14px;
 }
- 
-.media-preview img,
-.media-preview video {
-  object-fit: cover;
-}
 
 .media-preview img,
 .media-preview video {
+  object-fit: cover;
   width: 4rem;
   height: 4rem;
 }
@@ -564,4 +560,8 @@ form input[type="submit"]:hover {
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+.about {
+  padding-bottom: 20px;
 }

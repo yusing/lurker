@@ -27,7 +27,9 @@ function authenticateToken(req, res, next) {
 
 function authenticateAdmin(req, res, next) {
 	if (!req.cookies || !req.cookies.auth_token) {
-		return res.redirect("/login");
+		return res.redirect(
+			`/login?redirect=${encodeURIComponent(req.originalUrl)}`,
+		);
 	}
 
 	const token = req.cookies.auth_token;

@@ -4,12 +4,18 @@
   }
 -
   function isPostImage(p) {
-    return (p.post_hint == "image" && p.thumbnail && p.thumbnail != "self" && p.thumbnail != "default");
+    const imgRe = /\.(png|jpg|jpeg|gif|webp|bmp|tiff|svg)$/i;
+    return (p.post_hint == "image" && p.thumbnail && p.thumbnail != "self" && p.thumbnail != "default")
+      || imgRe.test(p.url);
   }
 -
   function postThumbnail(p) {
-    if (p.thumbnail == "image") {
-        return p.url
+    if (p.thumbnail == "image" || p.thumbnail == "") {
+        return p.url;
+    } else if (p.over_18) {
+        return "/nsfw.svg";
+    } else if (p.thumbnail == "spoiler") {
+        return "/spoiler.svg";
     } else {
         return p.thumbnail;
     }
