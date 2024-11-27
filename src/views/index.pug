@@ -14,7 +14,7 @@ html
         div.sub-title
           h1 
             if isMulti
-              a(href=`/`) readit
+              a(href=`/`) lurker
             else
               a(href=`/r/${subreddit}`)
                 | r/#{subreddit}
@@ -30,7 +30,7 @@ html
           div.about 
             | consider donating to&nbsp;
             a(href="https://donate.stripe.com/dR62bTaZH1295Da4gg") oppiliappan
-            |, author of readit
+            |, author of lurker
         hr
         details
           summary.sorting sorting by #{query.sort + (query.t?' '+query.t:'')}

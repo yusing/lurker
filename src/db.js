@@ -1,5 +1,5 @@
 const { Database } = require("bun:sqlite");
-const db = new Database("readit.db", {
+const db = new Database("lurker.db", {
 	strict: true,
 });
 

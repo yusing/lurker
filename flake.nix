@@ -20,7 +20,7 @@
     overlays.default = final: prev: {
       node_modules = with final;
         stdenv.mkDerivation {
-          pname = "readit-node-modules";
+          pname = "lurker-node-modules";
           version = "0.0.1";
           impureEnvVars =
             lib.fetchers.proxyImpureEnvVars
@@ -42,9 +42,9 @@
           outputHashAlgo = "sha256";
           outputHashMode = "recursive";
         };
-      readit = with final;
+      lurker = with final;
         stdenv.mkDerivation {
-          pname = "readit";
+          pname = "lurker";
           version = "0.0.1";
           src = ./.;
           nativeBuildInputs = [makeBinaryWrapper];
@@ -84,17 +84,17 @@
       });
 
     packages = forAllSystems (system: {
-      inherit (nixpkgsFor."${system}") readit node_modules;
+      inherit (nixpkgsFor."${system}") lurker node_modules;
     });
 
-    defaultPackage = forAllSystems (system: nixpkgsFor."${system}".readit);
+    defaultPackage = forAllSystems (system: nixpkgsFor."${system}".lurker);
 
     apps = forAllSystems (system: let
       pkgs = nixpkgsFor.${system};
     in {
       default = {
         type = "app";
-        program = "${pkgs.readit}/bin/readit";
+        program = "${pkgs.lurker}/bin/lurker";
       };
     });
 
@@ -108,35 +108,35 @@
     }:
       with lib; {
         options = {
-          services.readit = {
+          services.lurker = {
             enable = mkOption {
               type = types.bool;
               default = false;
-              description = "Enable readit";
+              description = "Enable lurker";
             };
             port = mkOption {
               type = types.int;
               default = 3000;
-              description = "Port to run readit on";
+              description = "Port to run lurker on";
             };
           };
         };
 
-        config = mkIf config.services.readit.enable {
+        config = mkIf config.services.lurker.enable {
           nixpkgs.overlays = [self.overlays.default];
-          systemd.services.readit = {
-            description = "readit service";
+          systemd.services.lurker = {
+            description = "lurker service";
             wantedBy = ["multi-user.target"];
 
             serviceConfig = {
-              ListenStream = "0.0.0.0:${toString config.services.readit.port}";
-              ExecStart = "${pkgs.readit}/bin/readit";
+              ListenStream = "0.0.0.0:${toString config.services.lurker.port}";
+              ExecStart = "${pkgs.lurker}/bin/lurker";
               Restart = "always";
             };
 
             # If the binary needs specific environment variables, set them here
             environment = {
-              READIT_PORT = "${toString config.services.readit.port}";
+              LURKER_PORT = "${toString config.services.lurker.port}";
             };
           };
         };

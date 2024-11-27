@@ -9,6 +9,9 @@ html
       if message
         div.register-error-message
           | #{message}
+      else 
+        div.register-message
+          | lurker is a read-only reddit client
       - var url = redirect ? `/login?redirect=${redirect}` : '/login'
       form(action=url method="post")
         div.input-text
