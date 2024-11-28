@@ -1,6 +1,5 @@
 const express = require("express");
 const he = require("he");
-const { hash, compare } = require("bun");
 const jwt = require("jsonwebtoken");
 const geddit = require("../geddit.js");
 const { JWT_KEY } = require("../");
