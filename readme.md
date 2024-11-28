@@ -22,7 +22,7 @@ me if you would like an invite.
 - over-18, spoiler images are hidden by default
 
 i use lurker daily, and above features are pretty good for
-my use. i do not intend to add much more, i dont like
+my use. i do not intend to add much more, i don't like
 writing js.
 
 ### gallery
@@ -43,7 +43,7 @@ writing js.
 
 you can run lurker as a systemd service on nixos:
 
-```
+```nix
 inputs.lurker.url= "git+https://git.peppe.rs/web/lurker";
   .
   .
@@ -56,7 +56,7 @@ services.lurker = {
 
 for non-nixos users:
 
-```
+```bash
 bun run src/index.js 
 ```
 
@@ -77,7 +77,7 @@ directory. there is no way to configure this right now.
 
 to hack on lurker:
 
-```
+```bash
 nix shell .#        # get a devshell
 nix build .#lurker  # build the thing
 ```
