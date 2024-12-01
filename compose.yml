@@ -1,0 +1,7 @@
+---
+services:
+  lurker:
+    image: lurker
+    build: .
+    container_name: lurker
+    restart: unless-stopped
