@@ -17,7 +17,10 @@
         ];
       });
   in {
-    overlays.default = final: prev: {
+    overlays.default = final: prev: let
+      pname = "lurker";
+      version = "0.1.0";
+    in {
       node_modules = with final;
         stdenv.mkDerivation {
           pname = "lurker-node-modules";
@@ -38,14 +41,13 @@
             cp -R ./node_modules/* $out/node_modules
             ls -la $out/node_modules
           '';
-          outputHash = "sha256-h1FAb1MvRORqZbg9P3dUJCejAk6wxPiVD9432RlsZOk=";
+          outputHash = "sha256-2qqPTYzbW/MuBfwYDAPZs0fiElTut3tKqCeMW6YIYTg=";
           outputHashAlgo = "sha256";
           outputHashMode = "recursive";
         };
       lurker = with final;
         stdenv.mkDerivation {
-          pname = "lurker";
-          version = "0.0.1";
+          inherit pname version;
           src = ./.;
           nativeBuildInputs = [makeBinaryWrapper];
           buildInputs = [bun];
@@ -71,6 +73,27 @@
 
           '';
         };
+      dockerImage = with final;
+        final.dockerTools.buildImage {
+          name = pname;
+          tag = "latest";
+
+          copyToRoot = final.buildEnv {
+            name = "image-root";
+            paths = [ final.lurker ];
+            pathsToLink = [ "/bin" ];
+          };
+
+          runAsRoot = ''
+            mkdir -p /data
+          '';
+
+          config = {
+            Cmd = ["/bin/${pname}"];
+            WorkingDir = "/data";
+            Volumes = {"/data" = {};};
+          };
+        };
     };
 
     devShell = forAllSystems (system: let
@@ -84,7 +107,7 @@
       });
 
     packages = forAllSystems (system: {
-      inherit (nixpkgsFor."${system}") lurker node_modules;
+      inherit (nixpkgsFor."${system}") lurker node_modules dockerImage;
     });
 
     defaultPackage = forAllSystems (system: nixpkgsFor."${system}".lurker);
